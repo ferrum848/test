@@ -1,0 +1,112 @@
+import webbrowser, sys, requests, bs4, openpyxl, pprint
+
+
+wb = openpyxl.load_workbook('censuspopdata.xlsx')
+sheet = wb.get_sheet_by_name('Population by Census Tract')
+countyData = {}
+
+
+for row in range(2, sheet.max_row + 1):
+    state = sheet['B' + str(row)].value
+    county = sheet['C' + str(row)].value
+    pop = sheet['D' + str(row)].value
+    countyData.setdefault(state, {})
+    countyData[state].setdefault(county, {'tracts': 0, 'pop': 0})
+    countyData[state][county]['tracts'] += 1
+    countyData[state][county]['pop'] += int(pop)
+
+resultFile = open('census2010.py', 'w')
+resultFile.write('allData = ' + pprint.pformat(countyData))
+resultFile.close()
+print('Done.')
+
+
+===================================================================================================
+
+import webbrowser, sys, requests, bs4, openpyxl, pprint
+from openpyxl.styles import Font
+
+wb = openpyxl.load_workbook('produceSales.xlsx')
+sheet = wb.active
+#print(wb.get_sheet_names())
+
+PRICE_UPDATES = {'Garlic': 3.07,
+                 'Celery': 1.19,
+                 'Lemon': 1.27}
+#print(sheet.max_row)
+for row in range(2, sheet.max_row + 1):
+    if sheet['A' + str(row)].value in PRICE_UPDATES.keys():
+        sheet['B' + str(row)].value = PRICE_UPDATES[sheet['A' + str(row)].value]
+
+wb.save('update_produceSales.xlsx')
+
+
+import webbrowser, sys, requests, bs4, openpyxl, pprint
+from openpyxl.styles import Font
+'''
+wb = openpyxl.load_workbook('produceSales.xlsx')
+sheet = wb.active
+#print(wb.get_sheet_names())
+
+PRICE_UPDATES = {'Garlic': 3.07,
+                 'Celery': 1.19,
+                 'Lemon': 1.27}
+#print(sheet.max_row)
+for row in range(2, sheet.max_row + 1):
+    if sheet['A' + str(row)].value in PRICE_UPDATES.keys():
+        sheet['B' + str(row)].value = PRICE_UPDATES[sheet['A' + str(row)].value]
+
+wb.save('update_produceSales.xlsx')
+
+
+wb = openpyxl.Workbook()
+sheet = wb.get_sheet_by_name('Sheet')
+italic24Font = Font(size=24, italic=True)
+sheet['A1'].font = italic24Font
+sheet['A1'] = 'Hello world!'
+wb.save('styled.xlsx')
+
+#===========================================================================================================
+k = 10
+wb = openpyxl.Workbook()
+sheet = wb.active
+bold_fon = Font(bold=True)
+for i in range(1, k + 1):
+    sheet.cell(row=1, column=i + 1).font = bold_fon
+    sheet.cell(row=i + 1, column=1).font = bold_fon
+    sheet.cell(row=1, column=i + 1).value = i
+    sheet.cell(row=i + 1, column=1).value = i
+for i in range(2, k + 2):
+    for j in range(2, k + 2):
+        sheet.cell(row=i, column=j).value = sheet.cell(row=1, column=i).value * sheet.cell(row=j, column=1).value
+
+wb.save('qwerty.xlsx')
+
+#==============================================================================================================
+n = int(sys.argv[1])
+m = int(sys.argv[2])
+wb = openpyxl.load_workbook('c:/Games/anaconda/work/ex.xlsx')
+sheet = wb.active
+wb_new = openpyxl.Workbook()
+sheet_new = wb_new.active
+for row in range(1, sheet.max_row + 1):
+    for col in range(1, sheet.max_column + 1):
+        if row < n:
+            sheet_new.cell(row=row, column=col).value = sheet.cell(row=row, column=col).value
+        else:
+            sheet_new.cell(row=row + m, column=col).value = sheet.cell(row=row, column=col).value
+wb_new.save('c:/Games/anaconda/work/%s' % sys.argv[3])
+
+print(sys.argv)
+'''
+#===================================================================================
+wb = openpyxl.Workbook()
+sheet = wb.active
+with open('rezult.txt', 'r') as file:
+    temp = file.readlines()
+    print(temp)
+    for i in range(len(temp) - 1):
+        print(temp[i].split('\n')[0].split(' '))
+        sheet.cell(row=1, column=i + 1).value = temp[i].split('\n')[0]
+
+wb.save('qwertyu.xlsx')

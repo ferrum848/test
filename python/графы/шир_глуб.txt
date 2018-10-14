@@ -1,0 +1,63 @@
+import random
+import numpy as np
+import cv2
+import os
+import string
+
+'''
+исходник графа
+a b c
+b a f
+c a d e
+d c
+e c f
+f b e j
+j f
+'''
+
+with open('c:/Games/anaconda/work/files/graf.txt','r') as f:
+    arr=f.readlines()
+    gr = {}
+    for i in arr:
+        i = i.split('\n')[0].split(' ')
+        gr[i[0]]=i[1:]
+print(gr)
+
+
+#обход графа в длину
+'''
+visited=[]
+qwerty=[]
+def glub(v):
+    if v not in visited:
+        visited.append(v)
+        qwerty.append(v)
+    for i in gr[v]:
+        if i not in visited:
+            glub(i)
+    ind=qwerty.index(v)
+    if ind==0:
+        return visited
+    glub(qwerty[ind-1])
+
+glub('a')
+print(visited)
+'''
+
+#обход графа в ширину
+visited = []
+q=[]
+def shir(v):
+    if v not in q:
+        q.append(v)
+    if v not in visited:
+        visited.append(v)
+    if len(q)==1 and len(visited)==len(gr.keys()):
+        return visited
+    del q[0]
+    for i in gr[v]:
+        if i not in visited:
+            q.append(i)
+    shir(q[0])
+shir('a')
+print(visited)

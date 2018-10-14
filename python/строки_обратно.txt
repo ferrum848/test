@@ -1,0 +1,19 @@
+
+import random
+import string
+import operator
+
+
+print("VVOD STROKY:  ")
+stroka = input()
+#print(''.join(reversed(stroka)))
+'''
+strok = stroka[::-1]
+print(strok)
+'''
+sp = stroka.split()
+y = list(reversed(sp))
+print(' '.join(y))
+
+#for i in range(len(sp),0,-1):
+#    sp[i-1]

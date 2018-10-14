@@ -1,0 +1,55 @@
+pascal_regions = {}
+with open('c:/Games/anaconda/work/super/1/labels.txt') as file:
+    for line in file:
+        line = line.split('\n')[0]
+        line = line.split(':')
+        pascal_regions[int(line[0])] = line[1][1:]
+#print(pascal_regions)
+
+'''
+color_temp, i = [], 1
+pascal_classes = {}
+while i != 460:
+    obj = pascal_regions[i]
+    a, b, c = random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
+    if not (a, b, c) in color_temp:
+        color_temp.append((a, b, c))
+        pascal_classes[obj] = (a, b, c)
+        i += 1
+print(pascal_classes)
+'''
+
+
+#====================================================================
+for object in os.listdir('c:/Games/anaconda/work/super/1/my_project/img'):
+    name = object[:11]
+
+
+    image = cv2.imread('c:/Games/anaconda/work/super/1/my_project/img/' + name + '.jpg')
+
+    mask = scipy.io.loadmat('c:/Games/anaconda/work/super/1/trainval/' + name + '.mat')['LabelMap']
+
+    foto_objects = []
+    json_for_image = {'tags': [],
+                      'description': '',
+                      'objects': foto_objects,
+                      'size': {
+                          'width': image.shape[1],
+                          'height': image.shape[0]
+                      }}
+
+    for obj in np.unique(mask):
+        classTitle = pascal_regions[obj]
+        mask_bool = np.where(mask == obj, mask, False)
+        mask_bool = mask_bool.astype(np.bool)
+        data = mask_2_base64(mask_bool)
+        temp = {"bitmap":
+                    {"origin": [0, 0],
+                     "data": data},
+                     "type": "bitmap",
+                     "classTitle": classTitle,
+                     "description": "",
+                     "tags": [],
+                     "points": {"interior": [], "exterior": []}}
+        foto_objects.append(temp)
+    json_dump(json_for_image, 'c:/Games/anaconda/work/super/1/my_project/ann/' + name + '.json')

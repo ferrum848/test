@@ -1,0 +1,46 @@
+import operator
+import random
+import itertools
+from itertools import groupby
+from operator import itemgetter
+from collections import Counter
+from copy import deepcopy
+import string
+import textwrap
+from array import *
+import datetime
+import time
+import math
+import cmath
+# from datetime import datetime
+from datetime import date, timedelta
+import os
+import numpy as np
+import cv2
+
+'''
+image = cv2.imread("C:/Games/anaconda/work/imajes/ppp.jpg")
+#a=np.random.randint(30, 300, size=(9, 2))
+arr=np.array([[100,85],[350,150],[200,320],[40,175],[50,100]], dtype=np.int32)
+print(image.shape)
+ya=cv2.imread("C:/Games/anaconda/work/imajes/12.jpg")
+
+mask = np.zeros(image.shape, dtype=np.uint8)
+cv2.fillConvexPoly(mask, arr, (255, 255, 255))
+
+b_channel, g_channel, r_channel = cv2.split(mask)
+res_channels = cv2.split(image)
+res = cv2.merge((res_channels[0], res_channels[1], res_channels[2], r_channel))
+cv2.imwrite("test.png", res)
+
+x_offset=430
+y_offset=20
+y1, y2 = y_offset, y_offset + res.shape[0]
+x1, x2 = x_offset, x_offset + res.shape[1]
+alpha_s = res[:, :, 3] / 255.0
+alpha_l = 1.0 - alpha_s
+for c in range(0, 3):
+    ya[y1:y2, x1:x2, c] = (alpha_s * res[:, :, c] + alpha_l * ya[y1:y2, x1:x2, c])
+
+cv2.imwrite("yaa.png", ya)
+'''

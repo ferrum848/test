@@ -1,0 +1,18 @@
+#обход графа в ширину(скачано)
+'''
+visited = set()
+Q = []
+BFS = []
+def bfs(v):
+ if v in visited: # Если вершина уже посещена, выходим
+    return
+ visited.add(v) # Посетили вершину v
+ BFS.append(v) # Запоминаем порядок обхода
+ for i in gr[v]: # Все смежные с v вершины
+    if not i in visited:
+        Q.append(i)
+ while Q:
+    bfs(Q.pop(0))
+bfs('a')
+print(BFS)
+'''

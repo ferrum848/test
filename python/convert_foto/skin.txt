@@ -1,0 +1,46 @@
+meta_class = {'fon': (255, 0, 0),
+              'skin': (0, 255, 255)}
+
+img_json = {1: 'fon',
+            255: 'skin'}
+
+
+for object in os.listdir('c:/Games/anaconda/work/super/2/Pratheepan_Dataset/FamilyPhoto'):
+    name = object[:-4]
+    image = cv2.imread('c:/Games/anaconda/work/super/2/Pratheepan_Dataset/FamilyPhoto/' + object)
+
+
+    im = cv2.imread('c:/Games/anaconda/work/super/2/Ground_Truth/GroundT_FamilyPhoto/' + name + '.png')
+
+    split = cv2.split(im)
+    mask = split[0]
+    mask = np.where(mask >= 255, mask, 1)
+    print(np.unique(mask))
+
+    foto_objects = []
+    json_for_image = {'tags': [],
+                      'description': '',
+                      'objects': foto_objects,
+                      'size': {
+                          'width': image.shape[1],
+                          'height': image.shape[0]
+                      }}
+
+    for obj in np.unique(mask):
+        print(obj, name)
+        classTitle = img_json[obj]
+        mask_bool = np.where(mask == obj, mask, False)
+        mask_bool = mask_bool.astype(np.bool)
+        data = mask_2_base64(mask_bool)
+        temp = {"bitmap":
+                    {"origin": [0, 0],
+                     "data": data},
+                     "type": "bitmap",
+                     "classTitle": classTitle,
+                     "description": "",
+                     "tags": [],
+                     "points": {"interior": [], "exterior": []}}
+        foto_objects.append(temp)
+    json_dump(json_for_image, 'c:/Games/anaconda/work/super/2/ann/' + name + '.json')
+
+

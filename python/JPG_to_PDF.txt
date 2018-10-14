@@ -1,0 +1,9 @@
+import PIL, os
+from PIL import Image
+
+for object in os.listdir('c:/Games/anaconda/work/super/1234567'):
+    name = object[:-4]
+    filename = 'c:/Games/anaconda/work/super/1234567/' + name + '.jpg'
+    im = PIL.Image.open(filename)
+    newfilename = 'c:/Games/anaconda/work/super/87654321/' + name + '.pdf'
+    PIL.Image.Image.save(im, newfilename, "PDF", resoultion=100.0)

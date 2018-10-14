@@ -1,0 +1,59 @@
+
+import random
+
+print("vvedite razmer massiva: ")
+x=int(input())
+
+arr = [random.randrange(0, 99) for y in range(x)]
+print(arr)
+i = 0
+j = x-1
+#====================================================
+def denerator_perestanovky(a,i,j):
+    pivot = a[i]
+    piv=i
+    k = j
+    ii=i
+    jj=j
+    while i<=j:
+        f1 = 0
+        f2 = 0
+        for i in range(k+1):
+            if a[i]>pivot:
+                f1=1
+                break
+
+        while j>=i:
+            if a[j] < pivot:
+                f2 = 1
+            j-=1
+            break
+
+        if f1==1 and f2==1:
+            a[i],a[j+1]=a[j+1],a[i]
+
+    if a[i]<pivot:
+        a[piv], a[i] = a[i], a[piv]
+        q = i
+    else:
+        a[piv], a[j] = a[j], a[piv]
+        q = j
+
+    i=ii
+    j=jj
+
+
+    if i+1<q:
+        denerator_perestanovky(a, i, q-1)
+
+
+    if q<j-1:
+        denerator_perestanovky(a, q+1, j)
+
+
+#===========================================================
+denerator_perestanovky(arr,i,j)
+
+
+print(arr)
+

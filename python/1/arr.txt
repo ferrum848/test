@@ -1,0 +1,54 @@
+import operator
+import random
+import itertools
+from itertools import groupby
+from operator import itemgetter
+from collections import Counter
+from copy import deepcopy
+import string
+import textwrap
+from array import *
+'''
+#1,2,3,4,5,6
+b = array('i', [1,3,5,7,9,7])
+b.insert(5,10)
+b.reverse()
+print(b)
+print(b.itemsize)
+print(b.buffer_info(),b.buffer_info()[1]*b.itemsize)
+print(b.count(7))
+
+#=============================================
+#7,9
+b = array('i', [1,3,5,7,8,9])
+c=[4,5,6]
+b.extend(c)
+print(b)
+#=============================================
+
+#8
+b = array('i', [119,9])
+b.tobytes()
+print(b.tobytes())
+
+x = array('b', [119, 51, 114, 101,  115, 111, 117, 114, 99, 101])
+print(x.tobytes())
+#=============================================
+
+#10,11
+b = array('i', [1,3,5,7,8,9])
+b.pop(5)
+b.insert(2,0)
+print(b)
+#=============================================
+
+#12
+b = array('i', [1,3,5,7,5,8,9])
+b.remove(5)
+print(b)
+#=============================================
+'''
+#13
+b = array('i', [1,3,5,7,5,8,9])
+b=list(b)
+print(b)

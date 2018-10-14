@@ -1,0 +1,1 @@
+subprocess.Popen(['c:/Program Files (x86)/CyberLink/PowerDVD14/PowerDVD14ML.exe', 'c:/этот комп/фильмы3/DiNoZaurS.2.2O18.Dukr.TS.V2.21OOMB.avi'])

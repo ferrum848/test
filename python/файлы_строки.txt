@@ -1,0 +1,12 @@
+with open("hello.txt", "r") as file:
+    all_lines = file.readlines()
+    for line in all_lines:
+        line = line.split('\n')[0].split(' ')  # из строки получаем список
+        for word in line:
+            if word in slovar:
+                slovar[word] += 1
+            else:
+                slovar[word] = 1
+print(slovar)
+import operator
+newA = dict(sorted(slovar.items(), key=operator.itemgetter(1), reverse=True)[:5])

@@ -1,0 +1,26 @@
+
+import random
+
+print("VVEDITE RAZMERNOST: ")
+dl=int(input())
+sh=int(input())
+
+
+a = [[random.randrange(1,10) for y in range(dl)] for x in range(sh)]
+z = [[0 for y in range(dl)] for x in range(sh)]
+
+for j in range(1,sh,2):
+    m = dl
+    n = dl
+    for i in range(m):
+        z[j][i] = a[j][n-1]
+        n-=1
+
+for k in range(0,sh,2):
+    m=dl
+    for i in range(m):
+        z[k][i] = a[k][i]
+
+print(a)
+print(z)
+

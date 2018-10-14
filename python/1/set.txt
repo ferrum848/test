@@ -1,0 +1,84 @@
+import operator
+import random
+import itertools
+from itertools import groupby
+from operator import itemgetter
+from collections import Counter
+from copy import deepcopy
+import string
+import textwrap
+'''
+#1
+a=set()
+print(type(a))
+
+#=======================================
+#2
+a=set([1,2,3,4,5])
+for i in a: print(i)
+#=======================
+#3
+b={i for i in range(10)}
+for i in b: print(i)
+
+#=======================================
+#4
+a=set([1,2,3,4,5])
+a.remove(2)
+for i in a: print(i)
+#=======================================
+
+#5
+a=set([1,2,3,4,5])
+n=3
+if n in a:
+    a.remove(n)
+    print(a)
+else: print("net takogo!!!    discard")
+#=======================================
+
+#6,7,8,9
+a=set([10,20,3,4,5])
+b=set([10,20,3,40,50,60,70])
+print(a.intersection(b))
+print(a|b)
+print(b-a)
+print(a^b)
+#=======================================
+whether every element in s is in t and every element in t is in s.
+
+#10
+a = set(["apple", "mango"])
+b = set(["mango", "orange"])
+c = set(["mango"])
+print(a==b)
+print(b==c)
+print(c<a,c<b)
+#=======================================
+
+#11
+a = set(["Red", "Green"])
+b = set(["Green", "Red"])
+c=a.copy()
+print(c)
+#=======================================
+
+#12
+a = set(["Red", "Green"])
+a.clear()
+print(a)
+#=======================================
+
+#13
+a=frozenset([1,2,3])
+print(a)
+#=======================================
+
+#14
+a=set([10,20,3,40,50,60,70])
+print(max(a),min(a))
+#=======================================
+'''
+#15
+a=set([10,20,3,40,50,60,70])
+print(len(a))

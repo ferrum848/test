@@ -1,0 +1,16 @@
+arr=[[5,10,15],[2,10,15],[5,5,5],[20,20,1],[20,1,1]]
+#arr=[[3,4,5],[1,1,1]]
+n=len(arr)
+for i in arr:
+    print(i)
+q=[]
+q.append(arr[0][0])
+q.append(min(q[0]+arr[1][0],arr[0][1]))
+if n>2:
+    i=0
+    while True:
+        q.append(min(q[i+1]+arr[i+2][0],q[0]+arr[i+1][1],arr[i][2]))
+        if len(q)==n:
+            break
+
+print(q[n-1])

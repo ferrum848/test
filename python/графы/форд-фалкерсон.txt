@@ -1,0 +1,107 @@
+#дейкстр с весом
+def deykstr(gr,v):
+    res = {}
+    gr_weight = {}
+    for i in gr.keys():
+        gr_weight[i] = 100
+    q = []
+    gr_weight[v]=0
+    while True:
+        if v not in q:
+            q.append(v)
+        for i in gr[v]:
+            if i[0] in gr_weight.keys():
+                if gr_weight[i[0]]>gr_weight[q[0]]+int(i[1:]):
+                    gr_weight[i[0]]=gr_weight[q[0]]+int(i[1:])
+        res[q[0]]=gr_weight[q[0]]
+        gr_weight.pop(q[0])
+        del q[0]
+        if len(gr_weight)==0:
+            break
+        qwert = list(sorted(gr_weight.items(), key=operator.itemgetter(1)))
+        v=qwert[0][0]
+    return res
+#============================================================================
+#путь дл€ графа с весом
+def deykstr_napravl(gr,v,en):
+    result = []
+    res=deykstr(gr,v)
+    if res[en]==100:
+        return False
+    result.append(en)
+    while True:
+        k=[]
+        for i in gr.keys():
+            for j in gr[i]:
+                if j[0]==en:
+                    k.append(i)
+        for i in k:
+            for j in gr[i]:
+                if int(j[1:])+res[i[0]]==res[en]:
+                    en=i[0]
+                    result.append(en)
+        if en==v:
+            break
+    return result[::-1]
+#===============================================================
+def potokfordafalkersona(grr,nachalo,end):
+    potok=0
+    while True:
+        put=deykstr_napravl(grr,nachalo,end)
+        if not put:
+            break
+        #все ребра графа
+        rebra=[]
+        for i in grr.keys():
+            for j in grr[i]:
+                rebra.append(i+j)
+        #через какие ребра совершен проход
+        put_rebra=[]
+        for i in range(len(put)-1):
+            put_rebra.append(put[i]+put[i+1])
+        print(put_rebra)
+        #остаточный вес ребер после прохода
+        put_rebra_del=[]
+        minim=[]
+        for i in put_rebra:
+            for j in rebra:
+                if i==j[:2]:
+                    minim.append(int(j[2:]))
+                    put_rebra_del.append(j)
+        udal=min(minim)
+        potok+=udal
+
+        for i in range(len(put_rebra_del)):
+            n=int(put_rebra_del[i][2:])-udal
+            put_rebra_del[i]=put_rebra_del[i][:2]
+            put_rebra_del[i]=put_rebra_del[i]+str(n)
+        print(put_rebra_del,potok)
+
+        #обновление словар€
+        for i in put_rebra_del:
+            for j in grr.keys():
+                if i[0]==j:
+                    for k in range(len(grr[j])):
+                        if i[1]==grr[j][k][0]:
+                            grr[j][k]=i[1:]
+        for i in grr.values():
+            for j in range(len(i)):
+                if i[j][1]=='0':
+                    del i[j]
+                    break
+    return potok
+
+
+#=======================================================
+with open('c:/Games/anaconda/work/files/graf4n.txt', 'r') as f:
+    arr = f.readlines()
+    grr = {}
+    for i in arr:
+        i = i.split('\n')[0].split(' ')
+        grr[i[0]] = i[1:]
+print(grr)
+
+
+print(deykstr(grr,'a'))
+#print(deykstr_napravl(grr,'a','e'))
+print(potokfordafalkersona(grr,'a','f'))

@@ -1,0 +1,32 @@
+
+import random
+
+print("VVEDITE RAZMER: ")
+m=int(input())
+n=int(input())
+a = [[random.randrange(1,10) for y in range(n)] for x in range(m)]
+print(a)
+for e in range(m):
+    print(a[e])
+sch=0
+j=0
+while n>1:
+    for i in range(sch,n):
+        print(a[j][i])
+    print("============")
+    for j in range(sch+1,m):
+        print(a[j][i])
+    print("============")
+    for k in range(i-1,sch-1,-1):
+        print(a[j][k])
+    print("============")
+    for l in range(j-1,sch,-1):
+        j=sch+1
+        print(a[l][k])
+    n-=1
+    m-=1
+    i-=1
+    k-=1
+    l-=1
+    sch+=1
+    print("========================================")

@@ -1,0 +1,12 @@
+import time
+import socket
+with socket.create_connection(("127.0.0.1", 10001)) as sock:
+    for i in range(3):
+        sock.sendall("hello{}".format(i).encode("utf8"))
+        time.sleep(1)
+        data = sock.recv(1024)
+        print(data.decode("utf8"))
+    key=777
+    sock.sendall(f"get{key}\n".encode("utf8"))
+    data = sock.recv(1024)
+    print(data.decode("utf8"))

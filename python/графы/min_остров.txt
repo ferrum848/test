@@ -1,0 +1,44 @@
+#минимальное островное дерево
+with open('c:/Games/anaconda/work/files/graf2_weight.txt', 'r') as f:
+    arr = f.readlines()
+    grr = {}
+    for i in arr:
+        i = i.split('\n')[0].split(' ')
+        grr[i[0]] = i[1:]
+print(grr)
+
+def ostrov(grr):
+    res=[]
+    versh=[]
+    for i in grr.keys():
+        versh.append(i)
+    print('Все вершины: ',versh)
+    nachalo=random.randint(0,len(versh)-1)
+    print('Начальная вершина: ',versh[nachalo])
+    res.append(versh[nachalo])
+    versh.remove(versh[nachalo])
+    while True:
+    #поиск ребер, исходящих из взятой вершины
+        q=[]
+        for i in res:
+            for j in grr[i]:
+                if j[0] not in res:
+                    q.append(j)
+        #поиск вершины, в которую ведет минимальное ребро
+        d=[]
+        dd=100
+        for i in range(len(q)):
+            if int(q[i][1:])<dd:
+                dd=int(q[i][1:])
+                d.append(q[i][0])
+        #print(q,d)
+        #добавление ближайшей вершины в найденые и удаление из рассматриваемых
+        res.append(d[len(d)-1])
+        versh.remove(d[len(d)-1])
+        #print(res,versh)
+        #print('===================================')
+        if len(versh)==0:
+            break
+    return res
+
+print(ostrov(grr))

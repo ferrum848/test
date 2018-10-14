@@ -1,0 +1,106 @@
+def distance(a, b):
+    return ((a[0] - b[0])**2 + (a[1] - b[1])**2) ** 0.5
+
+knn = 3
+rasst = 65
+
+klasters = []
+loosers_exit = 1000
+#data = [[random.randint(0,1500) for y in range(2)] for x in range(loosers_exit)]
+
+
+data = [[random.randint(0,200) + random.randint(0,130) for y in range(2)] for x in range(200)]
+data1 = [[random.randint(300,500) + random.randint(0,130) for y in range(2)] for x in range(200)]
+data2 = [[random.randint(600,800) + random.randint(0,130) for y in range(2)] for x in range(200)]
+data3 = [[random.randint(900,1100) + random.randint(0,130) for y in range(2)] for x in range(200)]
+data4 = [[random.randint(1200,1500) + random.randint(0,130) for y in range(2)] for x in range(200)]
+data5 = [[random.randint(0,1500) for y in range(2)] for x in range(100)]
+for_show = data + data1 + data2 + data3 + data4 + data5
+
+data = for_show
+data1 = copy.deepcopy(data)
+
+datashow = np.array(data)
+while True:
+    loosers= []
+    maybe_looser = []
+    while True:
+        if len(data) == 0 or len(data) == len(maybe_looser):
+            break
+        temp, klast = [], []
+        for i in range(len(data)):
+            if distance(data[0], data[i]) <= rasst:
+                temp.append(data[i])
+        if len(temp) == 1:
+            loosers.append(data[0])
+            data = data[1:]
+        elif len(temp) == 2:
+            maybe_looser.append(data[0])
+            test = data[0]
+            data = data[1:]
+            data.append(test)
+        else:
+            klast.append(data[0])
+            data = data[1:]
+            del_from_looser = []
+            for i in range(len(maybe_looser)):
+                if distance(maybe_looser[i], klast[0]) <= rasst:
+                    klast.append(maybe_looser[i])
+                    del_from_looser.append(maybe_looser[i])
+            for i in del_from_looser:
+                maybe_looser.remove(i)
+
+            list_of_neighbor, del_from_data = [], []
+            for i in range(len(data)):
+                if distance(klast[0], data[i]) <= rasst:
+                    list_of_neighbor.append(data[i])
+                    del_from_data.append(data[i])
+            for i in del_from_data:
+                data.remove(i)
+
+            while True:
+                del_from_data = []
+                for i in range(len(data)):
+                    if distance(list_of_neighbor[0], data[i]) <= rasst:
+                        list_of_neighbor.append(data[i])
+                        del_from_data.append(data[i])
+                for i in del_from_data:
+                    data.remove(i)
+                klast.append(list_of_neighbor[0])
+                if len(list_of_neighbor) == 1:
+                    break
+                list_of_neighbor = list_of_neighbor[1:]
+        if len(klast) > 0:
+            klasters.append(klast)
+    if len(maybe_looser) > 0:
+        maybe_looser.extend(loosers)
+        data = [el for el, _ in groupby(maybe_looser)]
+        if loosers_exit == len(data):
+            break
+        else:
+            loosers_exit = len(data)
+    else:
+        break
+
+print(len(klasters))
+loosers = [el for el, _ in groupby(maybe_looser)]
+print('loosers', len(loosers))
+testshow = np.array(klast)
+loos = np.array(loosers)
+
+colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse', 'coral', 'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgreen', 'darkgrey', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange', 'darkorchid', 'darkred', 'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'green', 'greenyellow', 'grey', 'honeydew', 'hotpink', 'indianred', 'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgreen', 'lightgrey', 'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey', 'lightsteelblue', 'lightyellow', 'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine', 'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue', 'mediumspringgreen', 'mediumturquoise', 'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy', 'oldlace', 'olive', 'olivedrab', 'orange', 'orangered', 'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'purple', 'rebeccapurple', 'red', 'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white', 'whitesmoke', 'yellow', 'yellowgreen']
+for i in range(len(klasters)):
+    print(len(klasters[i]))
+    kl = np.array(klasters[i])
+    plt.scatter(kl[:,0],kl[:,1],60,colors[i],'.')
+
+if len(loosers) > 0:
+    plt.scatter(loos[:,0],loos[:,1],10,'r','.')
+plt.show()
+
+
+from sklearn.cluster import DBSCAN
+from collections import Counter
+clustering = DBSCAN(eps=65, min_samples=3).fit(data1)
+print(np.unique(clustering.labels_))
+print(Counter(clustering.labels_))

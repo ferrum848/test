@@ -1,0 +1,258 @@
+import operator
+import random
+import itertools
+from itertools import groupby
+from operator import itemgetter
+from collections import Counter
+from copy import deepcopy
+import string
+import textwrap
+from array import *
+'''
+#1
+a=[]
+for i in range(1500,2701):
+    if i%5==0 and i%7==0: a.append(str(i))
+print(",".join(a))
+
+#================================================
+#10
+for i in range(50):
+    if i%15==0: print("fizzbull",end=' ')
+    elif i%3==0: print("fizz",end=' ')
+    elif i%5==0: print("bull")
+    else: print(i,end=' ')
+#================================================
+
+#18
+a='*'
+b=' '
+for i in range(7):
+    if i==0 or i==6:
+        c=a*4+b
+    elif i<6 and i>0:
+        c=a+b*3+a
+    print(c)
+#================================================
+
+#19
+a='*'
+b=' '
+for i in range(7):
+    if i == 0 or i == 3 or i == 6:
+        c=a*5
+    else: c=a+b*4
+    print(c)
+#================================================
+
+#20
+a='*'
+b=' '
+for i in range(7):
+    if i == 0 or i == 6:
+        c=b+a*3+b
+    elif i==2:
+        c=a+b*4
+    elif i==3:
+        c=a+b+a*3
+    else: c=a+b*3+a
+    print(c)
+# ================================================
+
+#21
+a='*'
+b=' '
+for i in range(7):
+    if i ==6:
+        c=a*6
+    else: c=a+b*5
+    print(c)
+# ================================================
+
+#22
+a='*'
+b=' '
+for i in range(7):
+    if i ==2:
+        c=a*2+b+a*2
+    elif i==3:
+        c=a+b+a+b+a
+    else: c=a+b*3+a
+    print(c)
+# ================================================
+
+#23
+a='*'
+b=' '
+for i in range(7):
+    if i ==0 or i==6:
+        c=b+a*3+b
+    else: c=a+b*3+a
+    print(c)
+# ================================================
+
+#24
+a='*'
+b=' '
+for i in range(7):
+    if i ==0 or i==3:
+        c=a*4+b
+    elif i==1 or i==2:
+        c=a+b*3+a
+    else: c=a+b*4
+    print(c)
+# ================================================
+
+#25
+a='*'
+b=' '
+for i in range(7):
+    if i ==0 or i==3:
+        c=a*4+b
+    elif i==1 or i==2 or i==6:
+        c=a+b*3+a
+    elif c==4: c=a+b+a+b*2
+    else: c=a+b*2+a+b
+    print(c)
+# ================================================
+
+#26
+a='*'
+b=' '
+for i in range(7):
+    if i ==0:
+        c=b+a*4
+    elif i==1 or i==2:
+        c=a+b*4
+    elif i==3:
+        c=b+a*3+b
+    elif i==4 or i==5:
+        c=b*4+a
+    elif i==6: c=a*4+b
+    print(c)
+
+a='o'
+b=' '
+for i in range(15):
+    if i ==0:
+        c=b+a*19
+    elif i==3 or i==4 or i==5:
+        c=a*4+b*16
+    elif i==9 or i==10 or i==11:
+        c=b*16+a*4
+    else: c=a*20
+    print(c)
+# ================================================
+
+#27
+a='*'
+b=' '
+for i in range(7):
+    if i ==0:
+        c=a*5
+    else: c=b*2+a+b*2
+    print(c)
+# ================================================
+
+#28
+a='*'
+b=' '
+for i in range(7):
+    if i ==6:
+        c=b+a*3+b
+    else: c=a+b*3+a
+    print(c)
+# ================================================
+
+#29
+a='*'
+b=' '
+for i in range(7):
+    if i ==2 or i==4:
+        c=b+a+b+a+b
+    elif i==3:
+        c=b*2+a+b*2
+    else: c=a+b*3+a
+    print(c)
+# ================================================
+
+#30
+a='*'
+b=' '
+for i in range(7):
+    if i ==0 or i==6:
+        c=a*6
+    else: c=b*(5-i)+a+b*i
+    print(c)
+# ================================================
+
+#31
+x=1.5
+if x<2: y=x*10.5
+else:
+    y=21+(x-2)*4
+print(y)
+# ================================================
+
+#32
+a='a,e,i,u,o'
+x='i'
+if x in a: print("vowel")
+else: print("consonant")
+# ================================================
+
+#33
+i='February'
+x31=['January','March','May','July','August','October','December']
+x30=['April','June','September','November']
+x28=['February']
+if i in x31: print(31)
+elif i in x30: print(30)
+elif i in x28: print(28)
+else: print("!!!")
+# ================================================
+
+#36
+a=3
+b=3
+c=3
+if a==b==c: print("equal")
+elif a==b or b==c or c==a: print("isosceles")
+else: print("unequal")
+# ================================================
+
+#40
+x=4
+y=5
+z=6
+if z<x<y or z>x>y: print("M=",x)
+elif z<y<x or z>y>x: print("M=",y)
+else: print("M=",z)
+# ================================================
+
+#42
+s=0
+av=0
+i=0
+while True:
+    x = int(input())
+    if x==0: break
+    i+=1
+    s+=x
+    av=s/i
+print(s,av)
+# ================================================
+
+#43
+x=7
+for i in range(1,11):
+    print(x,"*",i,"=",x*i)
+# ================================================
+'''
+#44
+
+for i in range(1,10):
+    c = 0
+    for j in range(0,i):
+        c+=(10**j)*i
+    print(c)

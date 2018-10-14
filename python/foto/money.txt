@@ -1,0 +1,51 @@
+
+image = cv2.imread("C:/Games/anaconda/work/imajes/money.jpg")
+
+def resize(img, height=500):
+    rat = height / img.shape[0]
+    return cv2.resize(img, (int(rat * img.shape[1]), height))
+
+imagee=resize(image)
+cv2.imshow("squar", imagee)
+cv2.waitKey()
+
+#image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+image = cv2.bilateralFilter(imagee, 9, 75, 75)
+cv2.imshow("squar", image)
+cv2.waitKey()
+
+
+gray = cv2.medianBlur(image, 11)#money 3,4 - 9
+cv2.imshow("squar", gray)
+cv2.waitKey()
+
+edged = cv2.Canny(gray, 10, 250)
+cv2.imshow("squar", edged)
+cv2.waitKey()
+
+# создайте и примените закрытие
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7))
+closed = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel)
+cv2.imshow("squar", closed)
+cv2.waitKey()
+# найдите контуры в изображении и подсчитайте количество книг
+cnts = cv2.findContours(closed.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[1]
+total = 0
+# цикл по контурам
+for c in cnts:
+    # аппроксимируем (сглаживаем) контур
+    peri = cv2.arcLength(c, True)
+    print(peri)
+    approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+    #print(len(approx))
+    if len(approx)==8:
+        cv2.drawContours(imagee, [approx], -1, (0, 255, 0), 2)
+        total += 1
+
+print("Я нашёл {0} монет на этой картинке".format(total))
+
+cv2.imshow("squar", imagee)
+cv2.waitKey()
+#cv2.imwrite("money_rez.png", imagee)
+

@@ -1,0 +1,69 @@
+
+import random
+
+'''
+while True:
+    while x !='print':
+        print("vvedite slovo: ")
+        x = input()
+        if x in dict:
+            dict[x]+=1
+        else:
+            dict[x] = 1
+    print(dict)
+    x = ""
+'''
+dict = {}
+x=""
+
+with open("hello.txt", "r") as file:
+    for line in open('hello.txt'):
+        line = line.split('\n')  # из строки получаем список
+        line = line[0]  # избавляемся от последнего элемента (\n)
+        line = line.split(' ')  # разделяем данные
+        i = 0
+        while i < len(line):
+            x = line[i]
+            i += 1
+            if x in dict:
+                dict[x] += 1
+            else:
+                dict[x] = 1
+
+print(dict)
+#print(dict["Python"])
+#print(type(dict["Python"]))
+arrval = [1]
+arrkey = ["key"]
+for key, value in dict.items():
+    if arrval[0] < value:
+        arrval.append(value)
+        arrkey.append(key)
+'''
+print(arrval)
+print(arrkey)
+print(len(arrval))
+'''
+for ii in range(len(arrval)-1):
+    for jj in range(len(arrval)-1):
+        if arrval[jj]>arrval[jj+1]:
+            arrval[jj],arrval[jj+1]=arrval[jj+1],arrval[jj]
+            arrkey[jj], arrkey[jj + 1] = arrkey[jj + 1], arrkey[jj]
+
+#print(arrval)
+#print(arrkey)
+
+for kk in range(len(arrval)-1,len(arrval)-6,-1):
+    print(arrkey[kk]," - ",arrval[kk])
+
+for m in range(len(arrval)):
+    arrval[m]=str(arrval[m])
+
+#print(type(arrval[len(arrval)-1]))
+
+with open("rezult.txt", "w") as file:
+    for kk in range(len(arrval) - 1, len(arrval) - 6, -1):
+        file.write(arrkey[kk])
+        file.write(" - ")
+        file.write(arrval[kk])
+        file.write("\n")

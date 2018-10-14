@@ -1,0 +1,28 @@
+import cv2
+
+vidcap = cv2.VideoCapture('c:/Games/anaconda/work/video/1.mp4')
+success, image = vidcap.read()
+count = 0
+success = True
+while success:
+    success, image = vidcap.read()
+    print('Read a new frame: ', success,count)
+    cv2.imwrite('c:/Games/anaconda/work/video/frame%d.jpg' % count, image)
+    count += 1
+===============================================================================
+
+
+#подсчет количества кадров
+cap = cv2.VideoCapture('c:/Games/anaconda/work/video/1.mp4')
+length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+print(length)
+
+
+vidcap = cv2.VideoCapture('c:/Games/anaconda/work/video/1.mp4')
+for i in range(1):
+    success, image = vidcap.read()
+    print('Read a new frame: ', success,i)
+    #image = cv2.flip(image, 0)
+    cv2.imshow('result', image)
+    cv2.waitKey()
+    #cv2.imwrite('c:/Games/anaconda/work/video/frame%d.jpg' % i, image)

@@ -1,0 +1,88 @@
+import random
+import numpy as np
+import cv2
+import os
+import string
+'''
+#функция генерации рандомной строки
+def randstring(n):
+    a = string.ascii_lowercase + string.ascii_uppercase
+    return ''.join([random.choice(a) for i in range(n)])
+#считываем имена файлов из каталога в список
+pictures = os.listdir("C:/Games/anaconda/work/pic")
+#pictures = filter(lambda x: x.endswith('.jpg'), pictures)
+for i in pictures:
+    image = cv2.imread("C:/Games/anaconda/work/pic/" + i)
+
+    #рандомные прямоугольники верх-низ
+    razmer_arrv=random.randint(0,image.shape[0]//4)
+    razmer_arrn=random.randint(0,image.shape[0]//4)
+    arrv=np.array([[0,0],[0,razmer_arrv],[image.shape[1],razmer_arrv],[image.shape[1],0]], dtype=np.int32)
+    arrn=np.array([[0,image.shape[0]],[image.shape[1],image.shape[0]],[image.shape[1],image.shape[0]-razmer_arrn],[0,image.shape[0]-razmer_arrn]], dtype=np.int32)
+    cv2.fillConvexPoly(image, arrv, (0, 0, 0))
+    cv2.fillConvexPoly(image, arrn, (0, 0, 0))
+    #генерим длину строки текста, строку, делаем так, чтобы строка не ушла за границы картинки
+    number_of_text=random.randint(0,1)#будет ли нижняя строка
+    len_text=random.randint(3,15)#длина строки
+    rand_text=randstring(len_text)
+    if image.shape[1] <= 21*len(rand_text):
+        x=0
+    else:
+        x=random.randint(0,image.shape[1]-21*len(rand_text))
+    #y=random.randint(razmer_arrv+23,image.shape[0]-razmer_arrn-10) одна строка в любом месте
+    y = random.randint(razmer_arrv + 23, image.shape[0]//2)
+    cv2.putText(image, rand_text, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2)
+    if number_of_text==1:#делаем нижнюю строку
+        len_text1 = random.randint(3, 15)
+        rand_text1 = randstring(len_text1)
+        if image.shape[1] <= 21 * len(rand_text1):
+            x1=0
+        else:
+            x1 = random.randint(0, image.shape[1] - 21 * len(rand_text1))
+        y1=random.randint((image.shape[0]//2)+23, image.shape[0]-razmer_arrn-10)
+        cv2.putText(image, rand_text1, (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+    with open('C:/Games/anaconda/work/picrezlog/' + i[:-3] + 'txt','w') as f:
+        f.write(str(x) + ' '+ str(y)+ ' ' + rand_text + '\n')
+        #f.write('Текст: ' + rand_text + '\n')
+        if number_of_text==1:
+            f.write(str(x1) + ' ' + str(y1)+ ' ' + rand_text1+'\n')
+            #f.write('Текст_низ: ' + rand_text1 + '\n')
+        f.write('\n')
+        f.write('Координаты верхнего прямоугольника: ' + '\n' +str(arrv)+ '\n')
+        f.write('Координаты нижнего прямоугольника: ' + '\n' + str(arrn)+ '\n')
+
+    #cv2.imshow('result', image)
+    #cv2.waitKey()
+    cv2.imwrite("C:/Games/anaconda/work/picrez/"+ i[:-3] + 'jpg', image)
+
+
+#==================================================================================
+#==================================================================================
+#поиск надписи по логу и его обвод в рамку
+pictures_rez = os.listdir("C:/Games/anaconda/work/picrez")
+for i in pictures_rez:
+    image = cv2.imread("C:/Games/anaconda/work/picrez/" + i)
+    with open("C:/Games/anaconda/work/picrezlog/"+ i[:-3] + 'txt','r') as f:
+        lines=f.readlines()
+        f=0
+        sp=[]
+        for line in lines:
+            if f==2: break
+            line = line.split('\n')[0].split(' ')
+            for j in line:
+                sp.append(j)
+            f+=1
+    x=int(sp[0])
+    y=int(sp[1])
+    sdvig=len(sp[2])*20
+    cv2.rectangle(image, (x,y-25), (x+sdvig,y+8), (255,0,255), thickness=2, lineType=8, shift=0)
+    if sp[3]:
+        x1 = int(sp[3])
+        y1 = int(sp[4])
+        sdvig1 = len(sp[5]) * 20
+        cv2.rectangle(image, (x1, y1 - 25), (x1 + sdvig1, y1 + 8), (255, 0, 255), thickness=2, lineType=8, shift=0)
+    #cv2.imshow('result', image)
+    #cv2.waitKey()
+    cv2.imwrite("C:/Games/anaconda/work/picnew/"+ i[:-3] + 'jpg', image)
+'''

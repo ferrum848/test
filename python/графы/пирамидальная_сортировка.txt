@@ -1,0 +1,39 @@
+#===========================================================
+def heapify(arr,ind):
+    while True:
+        left=2*ind+1
+        right=2*ind+2
+        largest=ind
+        if left<len(arr) and arr[left]>arr[largest]:
+            largest=left
+        if right<len(arr) and arr[right]>arr[largest]:
+            largest=right
+        if largest!=ind:
+            arr[ind],arr[largest]=arr[largest],arr[ind]
+        else:
+            break
+    return arr
+#==========================================================
+def build(arr):
+    for i in range((len(arr)//2)-1,-1,-1):
+        heapify(arr, i)
+    return arr
+#==========================================================
+def piramida(arr):
+    res=[]
+    while True:
+        build(arr)
+        res.append(arr[0])
+        del arr[0]
+        if len(arr)==2:
+            res.append(max(arr))
+            res.append(min(arr))
+            break
+    return res[::-1]
+#==========================================================
+
+
+ar=[random.randint(10,99) for y in range(23)]
+print(ar)
+print(piramida(ar))
+

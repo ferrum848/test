@@ -1,0 +1,167 @@
+import operator
+import random
+import itertools
+from itertools import groupby
+from operator import itemgetter
+from collections import Counter
+from copy import deepcopy
+import string
+import textwrap
+from array import *
+
+'''
+#1
+def maxx(a,b,c):
+    if a>=b and a>=c: print(a)
+    elif b>=a and b>=c: print(b)
+    else: print(c)
+maxx(3,3,1)
+
+#2,3
+def s(l):
+    s=0
+    for i in l:
+        s+=i
+    print(s)
+def m(l):
+    m=1
+    for i in l:
+        m*=i
+    print(m)
+k=(8, 2, 3, 1, 7)
+s(k)
+m(k)
+
+#4
+def ret(a):
+    print("".join(list(reversed(a))))
+c="1234abcd"
+ret(c)
+
+#5
+def fuct(n):
+    s=1
+    for i in range(1,n+1):
+        s*=i
+    print(s)
+fuct(7)
+
+#6
+def rang(a,b,c):
+    if c in range(a,b+1): print("yes")
+    else: print("no")
+rang(1,10,7)
+
+#7
+def lett(a):
+    l=h=0
+    for i in a:
+        if i in string.ascii_lowercase:
+            l+=1
+        elif i in string.ascii_uppercase:
+            h+=1
+    print("l=",l)
+    print("h=",h)
+s='The quick Brow Fox'
+lett(s)
+
+#8
+def lis(a):
+    print(list(set(a)))
+l=[1,2,3,3,3,3,4,5,'6','6']
+lis(l)
+
+#9
+def nut(n):
+    f = 0
+    for i in range(2,n):
+        if n%i==0: f=1
+    if f==1: print("not natural!")
+    else:
+        print("natural!")
+a=8
+nut(a)
+
+#10
+def ch(q):
+    b=[]
+    for i in q:
+        if i%2==0: b.append(i)
+    return b
+a=[1, 2, 3, 4, 5, 6, 7, 8, 9,110]
+print(ch(a))
+
+#11
+def ideal(n):
+    s=0
+    for i in range(1,n):
+        if n%i==0: s+=i
+    if s==n: print(n," ideal")
+    else: print(n," ne ideal")
+#ideal(28)
+for j in range(1,10000):
+    ideal(j)
+
+#12
+def pal(s):
+    q="".join(list(reversed(s)))
+    if q==s: print("pal!")
+    else: print("ne pal")
+a='topot1'
+pal(a)
+
+#13
+
+def pask(n):
+    a=[1,1]
+    if n==1: print([1])
+    elif n==2: print(a)
+    else:
+        print([1])
+        print(a)
+        for j in range(n-2):
+            b=[1]
+            for i in range(len(a)-1):
+                b.append(a[i]+a[i+1])
+            b.append(1)
+            a=b
+            print(b)
+pask(10)
+
+#14
+def pan(s):
+    if set(s)>=set(string.ascii_lowercase): print("yes")
+    else: print("no")
+a='the quick brown fox jumps over the lazy dog'
+pan(a)
+
+#15
+def sor(a):
+    print("-".join(sorted(a.split('-'))))
+c='green-red-yellow-black-white'
+sor(c)
+
+#16
+def sq(a,b):
+    for i in range(a,b+1):
+        print(i**2)
+sq(1,30)
+
+#18
+a='print(5)'
+b=
+def g(x,y):
+    return x*y
+print(g(5,7))
+
+exec(a)
+exec(b)
+
+#19
+def g(x,y):
+    return x*y
+def gg(u):
+    u=u+g(5,7)
+    return u
+print(gg(3))
+'''

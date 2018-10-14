@@ -1,0 +1,31 @@
+
+import random
+
+#print("vvedite razmer massiva: ")
+#x=int(input())
+#j=x-1
+
+a = [random.randrange(0, 30) for y in range(25)]
+a.sort()
+
+isk=15
+f=1
+i=0
+j=24
+sr=(j-i)//2
+while f!=0:
+    if i==j-1:
+        print("NET TAKOGO CHISLA!!!")
+        f = 0
+        break
+    elif a[sr]>isk:
+        j=sr
+        sr=(j+i)//2
+    elif a[sr]<isk:
+        i=sr
+        sr=(j+i)//2
+    elif isk==a[sr]:
+        print("URA!!!! ",isk)
+        break
+
+print(a)

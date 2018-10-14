@@ -1,0 +1,109 @@
+res = ['tvmonitor', 'screen', 'train', 'coach_1', 'person', 'torso', 'luleg', 'rlleg', 'ruleg', 'boat', 'head', 'lear', 'leye', 'lebrow', 'mouth', 'hair', 'nose', 'neck', 'llarm', 'luarm', 'llleg', 'horse', 'rear', 'muzzle', 'lflleg', 'lfuleg', 'lfho', 'lblleg', 'lbuleg', 'lbho', 'tail', 'cow', 'rflleg', 'rfuleg', 'rblleg', 'rbuleg', 'bottle', 'body', 'dog', 'lfleg', 'lfpa', 'rfleg', 'rfpa', 'lbleg', 'lbpa', 'reye', 'rbleg', 'rbpa', 'aeroplane', 'lwing', 'rwing', 'wheel_1', 'wheel_2', 'wheel_3', 'stern', 'cap', 'rebrow', 'lhand', 'rlarm', 'ruarm', 'rhand', 'car', 'frontside', 'rightside', 'door_1', 'rightmirror', 'headlight_1', 'window_1', 'fliplate', 'roofside', 'leftmirror', 'bliplate', 'backside', 'leftside', 'window_2', 'bus', 'headlight_2', 'window_3', 'window_4', 'window_5', 'engine_1', 'engine_2', 'lfoot', 'rfoot', 'bicycle', 'fwheel', 'bwheel', 'chainwheel', 'saddle', 'handlebar', 'table', 'chair', 'coach_2', 'cleftside_1', 'cleftside_2', 'hfrontside', 'hleftside', 'cfrontside_1', 'bird', 'beak', 'lleg', 'rleg', 'cat', 'wheel_4', 'wheel_5', 'wheel_6', 'motorbike', 'sheep', 'sofa', 'rfho', 'window_6', 'rbho', 'headlight_3', 'headlight_4', 'headlight_5', 'window_7', 'headlight_6', 'pottedplant', 'pot', 'plant', 'coach_3', 'coach_4', 'coach_5', 'crightside_1', 'crightside_2', 'hrightside', 'window_8', 'cleftside_3', 'cleftside_4', 'door_2', 'lhorn', 'rhorn', 'cbackside_1', 'door_3', 'hbackside', 'engine_3', 'engine_4', 'hroofside', 'croofside_1', 'window_9', 'croofside_2', 'window_10', 'window_11', 'window_12', 'window_13', 'window_14', 'crightside_3', 'croofside_3', 'coach_6', 'crightside_4', 'crightside_5', 'cfrontside_2', 'wheel_7', 'coach_7', 'cleftside_5', 'cleftside_6', 'cleftside_7', 'cbackside_2', 'wheel_8', 'coach_8', 'crightside_6', 'crightside_7', 'crightside_8', 'cleftside_8', 'coach_9', 'cleftside_9', 'cfrontside_3', 'cfrontside_4', 'cfrontside_5', 'cfrontside_6', 'cfrontside_7', 'cfrontside_9', 'croofside_4', 'door_4', 'headlight_7', 'headlight_8', 'window_15', 'window_16', 'window_17', 'window_18', 'window_19', 'window_20', 'croofside_5', 'engine_5', 'engine_6']
+
+
+def base64_2_mask(s):
+    z = zlib.decompress(base64.b64decode(s))
+    n = np.fromstring(z, np.uint8)
+    mask = cv2.imdecode(n, cv2.IMREAD_UNCHANGED)[:, :, 3].astype(bool)
+    return mask
+
+def color2code(color):
+    return '#%02x%02x%02x' % (int(color[0]), int(color[1]), int(color[2]))
+
+def json_dump(obj, fpath):
+    with open(fpath, 'w') as fp:
+        json.dump(obj, fp)
+
+def mask_2_base64(mask):
+    img_pil = Image.fromarray(np.array(mask, dtype=np.uint8))
+    img_pil.putpalette([0,0,0,255,255,255])
+    bytes_io = io.BytesIO()
+    img_pil.save(bytes_io, format='PNG', transparency=0, optimize=0)
+    bytes = bytes_io.getvalue()
+    return base64.b64encode(zlib.compress(bytes)).decode('utf-8')
+
+
+def coords(mask, obj):
+    coord = []
+    for index, i in np.ndenumerate(mask):
+        if i == obj:
+            coord.append(index)
+
+    min_left = (min(coord, key=lambda x: x[0])[0], min(coord, key=lambda x: x[1])[1])
+    max_right = (max(coord, key=lambda x: x[0])[0], max(coord, key=lambda x: x[1])[1])
+    #print(min_left, max_right)
+    res = mask[min_left[0] : max_right[0] + 1, min_left[1] : max_right[1] + 1]
+    return min_left, res
+
+pascal_segmentation = {}
+
+color_temp = []
+pascal_classes = {}
+for i in res:
+    a, b, c = random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
+    if not (a, b, c) in color_temp:
+        color_temp.append((a, b, c))
+        pascal_segmentation[i] = (a, b, c)
+print(pascal_segmentation)
+print(len(pascal_segmentation))
+
+
+classes = []
+for title, color in pascal_segmentation.items():
+    temp = {'title': title, 'shape': 'bitmap', 'color': color2code(color)}
+    classes.append(temp)
+meta = {'classes': classes, 'tags_images': [], "tags_objects": []}
+json_dump(meta, 'c:/Games/anaconda/work/super/4/meta.json')
+
+for object in os.listdir('c:/Games/anaconda/work/super/4/my_project/dataset/img'):
+    name = object[:11]
+
+    image = cv2.imread('c:/Games/anaconda/work/super/4/my_project/dataset/img/' + name + '.jpg')
+    all_variables = scipy.io.loadmat('c:/Games/anaconda/work/super/4/for_ann/Annotations_Part/' + name)
+    print(name)
+    list_of_objects = all_variables['anno'][0][0][1][0]
+
+    foto_objects = []
+    json_for_image = {'tags': [],
+                      'description': '',
+                      'objects': foto_objects,
+                      'size': {
+                          'width': image.shape[1],
+                          'height': image.shape[0]
+                      }}
+
+    for object in list_of_objects:
+        classTitle = object[0][0]
+        left_coner, mask = coords(object[2], 1)
+        mask_bool = np.array(mask, dtype=bool)
+        data = mask_2_base64(mask_bool)
+        temp = {"bitmap":
+                    {"origin": [left_coner[1], left_coner[0]],
+                     "data": data},
+                     "type": "bitmap",
+                     "classTitle": classTitle,
+                     "description": "",
+                     "tags": [],
+                     "points": {"interior": [], "exterior": []}}
+        foto_objects.append(temp)
+
+
+    for object in list_of_objects:
+        if len(object[3]) > 0:
+            for obj in object[3][0]:
+                classTitle = obj[0][0]
+                left_coner, mask = coords(obj[1], 1)
+                mask_bool = np.array(mask, dtype=bool)
+                data = mask_2_base64(mask_bool)
+                temp = {"bitmap":
+                            {"origin": [left_coner[1], left_coner[0]],
+                             "data": data},
+                        "type": "bitmap",
+                        "classTitle": classTitle,
+                        "description": "",
+                        "tags": [],
+                        "points": {"interior": [], "exterior": []}}
+                foto_objects.append(temp)
+
+    json_dump(json_for_image, 'c:/Games/anaconda/work/super/4/my_test/dataset/ann/' + name + '.json')
+

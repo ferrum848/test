@@ -1,0 +1,314 @@
+#print(type(sp))
+#print(type(sp[0]))
+#print(type(x))
+
+============================
+
+import random
+
+n = 15
+sp = []
+i=0
+j=0
+while i<20:
+    sp.append(random.randint(1,150))
+    i+=1
+print(sp)
+print("vvedite cifru: ")
+x = int(input())
+
+
+'''
+if x in sp:
+    print("ugadal")
+else:
+    print("ne ugadal")
+'''
+
+'''
+flag = False
+for a in sp:
+    if a == x:
+        flag = True
+        break
+
+if flag == False:
+    print("ne ugadal")
+else:
+    print("ugadal")
+'''
+
+'''
+while j<20:
+    if x != sp[j]:
+        j+=1
+        print(j, "e cislo ne ugadal!!!")
+        continue
+    else:
+        print(j, "sovpalo!!!")
+        break
+        
+'''
+======================================================
+
+import random
+
+def generator_spiska(arr,n):
+    i=0
+    while i < n:
+        arr.append(random.randint(1, 35))
+        i += 1
+    print(arr)
+
+a=[]
+b=[]
+c=[]
+
+generator_spiska(a,20)
+generator_spiska(b,10)
+
+i=0
+while i<len(a):
+    if a[i] in b:
+        c.append(a[i])
+    i+=1
+print(c)
+
+===========================================
+
+import random
+
+m1 = [[random.randrange(1,10) for y in range(3)] for x in range(4)]
+print(m1)
+
+m2 = [[random.randrange(1,10) for y in range(3)] for x in range(4)]
+print(m2)
+
+m3 = [[random.randrange(0,1) for y in range(3)] for x in range(4)]
+#print(m3)
+
+for i in range(4):
+    for j in range(3):
+        m3[i][j] = m1[i][j] + m2[i][j]
+print(m3)
+
+=======================
+
+import random
+
+razmer = 35
+arr = [random.randrange(1,50) for i in range(razmer)]
+print(arr)
+
+isk=25
+
+arr.sort()
+print(arr)
+
+i=0
+j=razmer-1
+x=razmer//2
+print(x)
+print(arr[x])
+
+while arr[x]!=isk and i<j:
+    if isk>arr[x]:
+        i= x+1
+    else:
+        j = x-1
+    x=(i+j)//2
+
+if i>=j:
+    print("oblom!!!")
+else:
+    print("uraaa!!! ",arr[x])
+
+   #=============================================
+
+import random
+
+arr = [[random.randrange(0,10) for y in range(5)] for x in range(6)]
+arr1 = [[random.randrange(0,1) for y in range(6)] for x in range(5)]
+print(arr)
+for i in range(5):
+    for j in range(6):
+        arr1[i][j] = arr[j][i]
+print(arr1)
+
+==========================================
+import random
+#umnojenie matrix
+print("vvedite razmernost matrix1: ")
+r1 = int(input())
+r2 = int(input())
+
+print("vvedite razmernost matrix2: ",r2,"*__" )
+r3 = int(input())
+
+a = [[random.randrange(0,5) for y in range(r2)] for x in range(r1)]
+b = [[random.randrange(0,5) for y in range(r3)] for x in range(r2)]
+c = [[random.randrange(0,1) for y in range(r3)] for x in range(r1)]
+
+print(a)
+print(b)
+#print(c)
+
+for i in range(r1):
+    for j in range(r3):
+        z=0
+        for n in range(r2):
+            z=a[i][n]*b[n][j]
+            c[i][j]+=z
+
+print(c)
+
+====================================================
+пузырек
+====================================================
+
+import random
+
+print("vvedite razmer massiva: ")
+x=int(input())
+
+a = [random.randrange(0,99) for y in range(x)]
+print(a)
+
+for i in range(x-1):
+    for j in range(x-1):
+        if a[j]>a[j+1]:
+            z=a[j]
+            a[j]=a[j+1]
+            a[j + 1]=z
+    print(a)
+#print (a)
+
+======================================================
+
+import random
+
+#print("vvedite razmer massiva: ")
+#x=int(input())
+
+a = [random.randrange(0,99) for y in range(7)]
+print(a)
+v=3
+i=0
+j=7
+z=0
+u=0
+f1=0
+f2=0
+
+for i in range(v):
+    if a[i] > a[v]:
+        z = a[i]
+        f1=1
+        break
+
+for k in range(v,j):
+    if a[k] < a[v]:
+        u = a[k]
+        f2=1
+        break
+print(z)
+print(u)
+if f1==1 and f2==1:
+    a[i],a[k]=a[k],a[i]
+    
+print(a)
+
+===================================
+===================================
+
+import random
+
+# print("vvedite razmer massiva: ")
+# x=int(input())
+
+arr = [random.randrange(0, 99) for y in range(7)]
+#arr = [40, 55, 75, 35, 55, 55, 96]
+i = 0
+j = 6
+#====================================================
+def denerator_perestanovky(a,i,j):
+    pivot = a[i]
+    piv=i
+    k = j
+    while i<=j:
+        f1 = 0
+        f2 = 0
+        for i in range(k+1):
+            if a[i]>pivot:
+                f1=1
+                break
+
+        while j>=i:
+            if a[j] < pivot:
+                f2 = 1
+            j-=1
+            break
+
+        if f1==1 and f2==1:
+            a[i],a[j+1]=a[j+1],a[i]
+        print(a)
+    if a[i]<pivot:
+        a[piv], a[i] = a[i], a[piv]
+        q = i
+    else:
+        a[piv], a[j] = a[j], a[piv]
+        q = j
+    print(j)
+    print(i)
+    print(q)
+    i=1
+    j=6
+#===========================================================
+denerator_perestanovky(arr,i,j)
+
+print(arr)
+
+==================================================================================
+==================================================================================
+
+import random
+
+print("VVEDITE RAZMERNOST: ")
+x=int(input())
+y=int(input())
+
+
+a = [[random.randrange(1,10) for y in range(5)] for x in range(4)]
+z = [[0 for y in range(5)] for x in range(4)]
+
+print(a)
+print(z)
+
+for j in range(1,4,2):
+    m = 5
+    n = 5
+    for i in range(m):
+        z[j][i] = a[j][n-1]
+        n-=1
+
+for k in range(0,4,2):
+    m=5
+    for i in range(m):
+        z[k][i] = a[k][i]
+
+
+'''
+a = [random.randrange(1,10) for y in range(5)]
+z = [0 for y in range(5)]
+print(a)
+print(z)
+m=5
+n=5
+for i in range(m):
+    z[i]=a[n-1]
+    n-=1
+'''
+
+print(a)
+print(z)
+

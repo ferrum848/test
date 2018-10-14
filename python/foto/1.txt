@@ -1,0 +1,46 @@
+import operator
+import random
+import itertools
+from itertools import groupby
+from operator import itemgetter
+from collections import Counter
+from copy import deepcopy
+import string
+import textwrap
+from array import *
+import datetime
+import time
+import math
+import cmath
+# from datetime import datetime
+from datetime import date, timedelta
+import os
+import numpy as np
+
+import numpy as np
+import cv2
+
+color_red = (0,0,255)
+color_yellow = (0,255,255)
+color_purple = (255,0,255)
+
+image = cv2.imread("C:/Games/anaconda/work/imajes/ppp.jpg")
+cv2.rectangle(image, (45,90), (135,170), color_red, thickness=2, lineType=3,shift=0)
+cv2.line(image, (132,256), (245,258), color_red, thickness=2, lineType=8, shift=0)
+for i in range(5):
+    cv2.circle(image, (322, 126+i*50), 20, (200,200,0), 2)
+cv2.imshow("squar", image)
+cv2.waitKey()
+print(image.shape)
+
+
+'''
+virez = image[90:180, 40:150]
+cv2.imshow("virez", virez)
+cv2.waitKey(0)
+
+z = cv2.flip(image,1)
+cv2.imshow("zerkalo", z)
+cv2.waitKey(0)
+'''
+#cv2.imwrite("C:/Games/anaconda/work/imajes/squar.png", image)

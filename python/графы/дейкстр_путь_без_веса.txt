@@ -1,0 +1,74 @@
+def deykstr(file,v):
+    with open(file, 'r') as f:
+        arr = f.readlines()
+        gr = {}
+        for i in arr:
+            i = i.split('\n')[0].split(' ')
+            gr[i[0]] = i[1:]
+    print(gr)
+    res = {}
+    gr_weight = {}
+    for i in gr.keys():
+        gr_weight[i] = 100
+    q = []
+    gr_weight[v]=0
+    while True:
+        if v not in q:
+            q.append(v)
+        for i in gr[v]:
+            if i in gr_weight.keys():
+                if gr_weight[i]>gr_weight[q[0]]+1:
+                    gr_weight[i]=gr_weight[q[0]]+1
+
+        res[q[0]]=gr_weight[q[0]]
+        gr_weight.pop(q[0])
+        del q[0]
+        if len(gr_weight)==0:
+            break
+        qwert = list(sorted(gr_weight.items(), key=operator.itemgetter(1)))
+        v=qwert[0][0]
+    return res
+
+#result=deykstr('c:/Games/anaconda/work/files/graf.txt','a')
+#print(result)
+
+
+def deykstr_put(file,v,en):
+    with open(file, 'r') as f:
+        arr = f.readlines()
+        gr = {}
+        for i in arr:
+            i = i.split('\n')[0].split(' ')
+            gr[i[0]] = i[1:]
+    print(gr)
+    res=deykstr(file,v)
+    qaz = []
+    for i in res:
+        if res[i] >= res[en] and i != en:
+            qaz.append(i)
+    for i in qaz:
+        res.pop(i)
+    t=0
+    while True:
+        w_en = res[en]
+        print(en)
+        print('Подграф:', res)
+        qwr = []
+        sp = []
+        for i in res.keys():
+            if i not in gr[en] and res[i]==w_en-1:
+                qwr.append(i)
+        print('Удаленные:', qwr)
+        for i in qwr:
+            res.pop(i)
+        for i in res.keys():
+            sp.append(i)
+        en=sp[len(sp)-2-t]
+        if w_en==1:
+            break
+        else:
+            t+=1
+    return sp
+
+rezz=deykstr_put('c:/Games/anaconda/work/files/graf.txt','a','j')
+print(rezz)

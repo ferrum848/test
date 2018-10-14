@@ -1,0 +1,29 @@
+image_class = {'fon' : (1, 1, 1),
+             'human':(255, 255, 255)}
+
+
+for object in os.listdir('c:/Games/anaconda/work/super/Peta/HumanCarOmniDataset/Human Set/my_project1/dataset/img'):
+    name = object[:-4]
+    print(name)
+    image = cv2.imread('c:/Games/anaconda/work/super/Peta/HumanCarOmniDataset/Human Set/my_project1/dataset/img/' + name + '.jpg')
+    all_variables = scipy.io.loadmat('c:/Games/anaconda/work/super/Peta/HumanCarOmniDataset/Human Set/annot/' + name + '.mat')
+
+    foto_objects = []
+    json_for_image = {'tags': [],
+                      'description': '',
+                      'objects': foto_objects,
+                      'size': {
+                          'width': image.shape[1],
+                          'height': image.shape[0]
+                      }}
+
+    for i in range(1):
+        temp = {"bitmap": "",
+                "type": "polygon",
+                "classTitle": 'human',
+                "description": "",
+                "tags": ["other"],
+                "points": {"interior": [], "exterior": [[int(all_variables['x'][i][0]), int(all_variables['y'][i][0])], [int(all_variables['x'][i][1]), int(all_variables['y'][i][1])], [int(all_variables['x'][i][2]), int(all_variables['y'][i][2])], [int(all_variables['x'][i][3]), int(all_variables['y'][i][3])], [int(all_variables['x'][i][0]), int(all_variables['y'][i][0])]]}}
+        foto_objects.append(temp)
+    json_dump(json_for_image, 'c:/Games/anaconda/work/super/Peta/HumanCarOmniDataset/Human Set/my_project1/dataset/ann/' + name + '.json')
+

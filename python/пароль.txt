@@ -1,0 +1,17 @@
+import random
+import string
+import operator
+from random import choice
+from string import ascii_letters
+from string import digits
+
+
+
+def randstring(n):
+    simbols = "~!@#$%^&*(){}_"
+    a = string.ascii_lowercase + string.digits + string.ascii_uppercase+simbols
+    b=simbols
+    return ''.join([random.choice(a) for i in range(n)])
+
+
+print(randstring(12))

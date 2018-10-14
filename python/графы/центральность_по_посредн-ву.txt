@@ -1,0 +1,65 @@
+#дейкстр с весом
+def deykstr_w(gr,v):
+    res = {}
+    gr_weight = {}
+    for i in gr.keys():
+        gr_weight[i] = 100
+    q = []
+    gr_weight[v]=0
+    while True:
+        if v not in q:
+            q.append(v)
+        for i in gr[v]:
+            if i[0] in gr_weight.keys():
+                if gr_weight[i[0]]>gr_weight[q[0]]+int(i[1:]):
+                    gr_weight[i[0]]=gr_weight[q[0]]+int(i[1:])
+        res[q[0]]=gr_weight[q[0]]
+        gr_weight.pop(q[0])
+        del q[0]
+        if len(gr_weight)==0:
+            break
+        qwert = list(sorted(gr_weight.items(), key=operator.itemgetter(1)))
+        v=qwert[0][0]
+    return res
+#=========================================================================
+#пути дейкстра с весом
+def deykstr_weight(gr,v,en):
+    result = []
+    res=deykstr_w(gr,v)
+    result.append(en)
+    while True:
+        for i in gr[en]:
+            if int(i[1:])+res[i[0]]==res[en]:
+                en=i[0]
+                result.append(en)
+        if en==v:
+            break
+    return result[::-1]
+
+#=========================================================================
+def betcen(gr):
+    sch1=-len(grr)
+    for i in grr.keys():
+        for j in grr.keys():
+            sch1+=1
+    print(sch1)
+
+    sch={}
+    for k in grr.keys():
+        sch[k]=-len(grr)
+        for i in grr.keys():
+            for j in grr.keys():
+                if k in deykstr_weight(grr, i, j):
+                    sch[k]+=1
+        sch[k]=round(sch[k]/sch1,5)
+    return sch
+#==========================================================================
+with open('c:/Games/anaconda/work/files/graf2_weight.txt', 'r') as f:
+    arr = f.readlines()
+    grr = {}
+    for i in arr:
+        i = i.split('\n')[0].split(' ')
+        grr[i[0]] = i[1:]
+print(grr)
+
+print(betcen(grr))

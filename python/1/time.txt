@@ -1,0 +1,191 @@
+import operator
+import random
+import itertools
+from itertools import groupby
+from operator import itemgetter
+from collections import Counter
+from copy import deepcopy
+import string
+import textwrap
+from array import *
+import datetime
+import time
+#from datetime import date, timedelta,datetime
+#from time import time,asctime,gmtime,strftime,mktime,ctime
+import calendar
+from dateutil.relativedelta import relativedelta
+import os
+
+'''
+#1
+print("Current date and time: " , datetime.datetime.now())
+print("Current year: ", datetime.date.today().strftime("%Y"))
+print("Month of year: ", datetime.date.today().strftime("%B"))
+print("Week number of the year: ", datetime.date.today().strftime("%W"))
+print("Weekday of the week: ", datetime.date.today().strftime("%w"))
+print("Day of year: ", datetime.date.today().strftime("%j"))
+print("Day of the month : ", datetime.date.today().strftime("%d"))
+print("Day of week: ", datetime.date.today().strftime("%A"))
+
+#2
+def leap_year(y):
+    if y % 400 == 0:
+        return True
+    if y % 100 == 0:
+        return False
+    if y % 4 == 0:
+        return True
+    else:
+        return False
+print(leap_year(88))
+
+2014-07-01 14:43:00
+
+#3
+a='Jul 1 2014 2:43PM'
+print(datetime.strptime(a, '%b %d %Y %I:%M%p'))
+
+#4
+print(datetime.datetime.now().time())
+
+#5
+print(date.today()-timedelta(736741))
+
+#7
+print(date.today()-timedelta(1),date.today(),date.today()+timedelta(1))
+#8
+
+print(datetime.combine(date.today(),datetime.min.time()))
+
+#9
+print(date.today()+timedelta(5))
+
+#10
+y = datetime.now() + timedelta(0,5)
+print(datetime.now().time())
+print(y.time())
+
+#11
+day_of_year = (datetime.now() - datetime(datetime.now().year, 1, 1)).days + 1
+#print(day_of_year)
+
+print(((datetime.now()-(datetime(2018,2,1))).days))
+
+#12
+print(round(time.time()))
+
+#13
+print(datetime.now().strftime("%U"))
+
+#14
+print(time.asctime(),"|||",datetime.now())
+print(time.asctime(time.strptime("2015,50,1","%Y,%W,%w")))
+
+
+#15
+print(time.asctime(time.strptime("2020,1,0","%Y,%W,%w")))
+for i in range(0,358,7):
+	print(datetime(2020,1,5).date()+timedelta(i))
+
+#17
+print(str(datetime.now())[:19])
+print(datetime.now().replace(microsecond=0))
+
+#18
+print((date(2001,3,31)-date(2000,3,31)).days)
+
+#19
+print(date.today()-timedelta(7))
+
+#21,22
+print(calendar.monthrange(2017, 3)[1])
+
+#23
+print(date(2017,12,15)+relativedelta(months=1))
+
+#25
+for i in range(3):
+    print("hello")
+    time.sleep(2)
+
+#26
+print(datetime.now().replace(microsecond=0)+timedelta(6*365/12))
+
+#27
+dt=date(2016,8,1)
+for i in range(12):
+    dt=dt+timedelta(days=20)
+    print(dt)
+
+#28
+dt=date(2017,5,6)
+print(dt+timedelta(days=30),dt-timedelta(days=30))
+
+#29
+print(time.gmtime())
+
+#30
+
+now = datetime.datetime.now()
+print(time.mktime(now.timetuple()))
+
+#31
+print(datetime.datetime.now().timetuple())
+
+#32,33
+print((date(2017,1,1)-date(2016,5,5)).days+1)
+
+
+#34
+print(time.ctime())
+
+#36
+print(((date(2017,1,1)-date(2016,5,5)).days+1)*24*360)
+
+#37
+
+#38
+print(os.path.getmtime("hello.txt"))
+#print(os.stat("hello.txt"))
+t=os.stat("hello.txt")
+d=time.localtime(t.st_mtime)
+print(time.localtime(t.st_mtime))
+print(d[0],d[1],d[2])
+
+#39
+print((datetime.now()- datetime(2000,3,1)).days//365)
+
+
+#40
+print(date.today().strftime("%W"))
+
+
+#41
+print(str(datetime.now().time()))
+
+
+#42
+c = calendar.TextCalendar()
+print(c.prmonth(2018, 2))
+
+#43
+c=calendar.TextCalendar()
+print(c.formatyear(2018,2,0,3,3))
+
+#44
+c=calendar.TextCalendar()
+print(c.formatmonth(2018,2))
+
+#45
+print(datetime.now().date().isocalendar())
+
+#46
+c=calendar.HTMLCalendar()
+print(c.formatmonth(2018,2))
+
+#50
+for i in range((date(2018,2,15)-date(2018,1,29)).days):
+    print(date(2018,1,29)+timedelta(days=i))
+'''
+#52
+print(datetime.time.max)

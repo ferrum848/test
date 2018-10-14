@@ -1,0 +1,21 @@
+#arr=[35,40,101,59,63]
+arr=[random.randrange(1,299) for y in range(300)]
+print(arr)
+n=len(arr)
+kup=[0,0]
+res=0
+for i in range(n):
+    res += arr[i]
+    if arr[i]>100:
+        kup[1]+=1
+        t=arr.index(max(arr[i+1:]))
+        arr[t]=0
+sch=0
+for i in arr:
+    if i==0:
+        sch+=1
+if sch<kup[1]:
+    kup[0]+=1
+    kup[1]-=1
+print(arr)
+print('res=',res,'==>',kup)

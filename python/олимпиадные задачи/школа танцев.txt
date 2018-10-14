@@ -1,0 +1,18 @@
+s='abbababa'
+s = [random.randint(0,1) for x in range(100)]
+for i in range(len(s)):
+    if s[i]==0:
+        s[i]='a'
+    else:
+        s[i]='b'
+
+n=len(s)
+sch=0
+
+for k in range(0,n-1,2):
+    for i in range(0,n-1-k):
+        qwert=sorted(s[i:i+2+k])
+        #print(qwert)
+        if qwert[(len(qwert)//2)-1]!=qwert[(len(qwert)//2)]:
+            sch+=1
+print(sch)

@@ -1,0 +1,132 @@
+import random
+import time
+import numpy as np
+import cv2
+import os
+import string
+import operator
+import math
+import zipfile
+import shutil
+#===========================================================
+'''
+start_time = time.clock()
+#создание архива с подкаталогами(без рекурсии)
+def arhivator(input,output):
+    t=zipfile.ZipFile(output,'w')
+    for folder, subfolder, files in os.walk(input):
+        for file in files:
+            t.write(os.path.join(folder,file),os.path.relpath(os.path.join(folder,file),input))
+    t.close()
+arhivator('c:/Games/anaconda/work/test_for_arh','c:/Games/anaconda/work/arhive/arh.zip')
+print(time.clock() - start_time, "seconds")
+#=====================================================================================
+'''
+
+'''
+#создание архива с подкаталогами(рекурсия)
+def arhivator_rec(input,inp):
+    for i in os.listdir(input):
+        t.write(os.path.join(input,i),os.path.relpath(os.path.join(input,i),inp),compress_type=zipfile.ZIP_DEFLATED)
+        if os.path.isdir(os.path.join(input,i)):
+            arhivator_rec(os.path.join(input,i),inp)
+
+t=zipfile.ZipFile('c:/Games/anaconda/work/arhive/arh.zip','w')
+arhivator_rec('c:/Games/anaconda/work/test_for_arh','c:/Games/anaconda/work/test_for_arh')
+t.close()
+#=====================================================================================
+'''
+'''
+#извлечение архива
+z=zipfile.ZipFile('c:/Games/anaconda/work/arhive/arh.zip')
+z.extractall('c:/Games/anaconda/work/arhive_out')
+z.close()
+'''
+
+'''
+start_time = time.clock()
+#генератор копирования больших файлов
+def generator(file,razmer):
+    for i in range(1,(razmer//1024)+2):
+        n=file.read(1024)
+        file.seek(1024*i)
+        yield n
+        i+=1
+a=open('c:/Games/anaconda/work/video/G.avi','br')
+b=open('c:/Games/anaconda/work/arhive/Q.avi','bw')
+razm=os.path.getsize('c:/Games/anaconda/work/video/G.avi')
+gen=generator(a,razm)
+j=1
+for i in gen:
+    b.write(i)
+    b.seek(1024*j)
+    j+=1
+a.close()
+b.close()
+print(time.clock() - start_time, "seconds")
+#===================================================================
+'''
+
+'''
+#сбор файлов из подкаталогов в один каталог
+def katalog(s,put):
+    for i in os.listdir(s):
+        if os.path.isfile(s+'/'+i):
+            print(i)
+            shutil.move(s+'/'+i,put)
+        else:
+            katalog(s+'/'+i,put)
+
+#выборка файлов из архива по критерию
+z=zipfile.ZipFile('c:/Games/anaconda/work/arhive/arh.zip')
+print(z.namelist())
+for i in z.namelist():
+    if z.getinfo(i).file_size<1024:
+        z.extract(i,'c:/Games/anaconda/work/arhive_out')
+katalog('c:/Games/anaconda/work/arhive_out','c:/Games/anaconda/work/123')
+#===============================================================
+
+'''
+'''
+import grpc
+import calculator_pb2
+import calculator_pb2_grpc
+# open a gRPC channel
+channel = grpc.insecure_channel('localhost:50051')
+# create a stub (client)
+stub = calculator_pb2_grpc.CalculatorStub(channel)
+# create a valid request message
+number = calculator_pb2.Number(value=100)
+# make the call
+response = stub.SquareRoot(number)
+print(response.value)
+'''
+
+import grpc
+import hello_pb2
+import hello_pb2_grpc
+# open a gRPC channel
+channel = grpc.insecure_channel('localhost:50051')
+# create a stub (client)
+stub = hello_pb2_grpc.CalStub(channel)
+k=hello_pb2.HelloReply(m='ggg')
+response = stub.HelloRoot(k)
+print(response.m)
+'''
+
+
+
+import grpc
+import helloworld_pb2
+import helloworld_pb2_grpc
+
+
+channel = grpc.insecure_channel('localhost:50051')
+stub = helloworld_pb2_grpc.GreeterStub(channel)
+
+response = stub.SayHello(helloworld_pb2.HelloRequest(name='qwerty'))
+print(response)
+'''
+
+
+

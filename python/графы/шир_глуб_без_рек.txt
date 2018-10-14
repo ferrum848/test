@@ -1,0 +1,61 @@
+#обход графа в ширину
+def shir(file,v):
+    with open(file, 'r') as f:
+        arr = f.readlines()
+        gr = {}
+        for i in arr:
+            i = i.split('\n')[0].split(' ')
+            gr[i[0]] = i[1:]
+    print(gr)
+    visited = []
+    q = []
+    if v not in q:
+        q.append(v)
+    while True:
+        if v not in visited:
+            visited.append(v)
+        if len(q)==1 and len(visited)==len(gr.keys()):
+            break
+        del q[0]
+        for i in gr[v]:
+            if i not in visited:
+                q.append(i)
+        v=q[0]
+    return visited
+
+vis=shir('c:/Games/anaconda/work/files/graf.txt','a')
+print(vis)
+
+
+def glub(file,v):
+    with open(file, 'r') as f:
+        arr = f.readlines()
+        gr = {}
+        for i in arr:
+            i = i.split('\n')[0].split(' ')
+            gr[i[0]] = i[1:]
+        print(gr)
+        
+    visited = [v]
+    qwerty = [v]
+    while True:
+        for i in gr[v]:
+            if i not in visited:
+                visited.append(i)
+                qwerty.append(i)
+                v=i
+                break
+        ind=qwerty.index(v)
+        if ind==0:
+            break
+        q=[]
+        for i in gr[v]:
+            if i in visited:
+                q.append(i)
+        if len(q)==len(gr[v]):
+            v = qwerty[ind - 1]
+
+    return visited
+
+visit=glub('c:/Games/anaconda/work/files/tree.txt','a')
+print(visit)

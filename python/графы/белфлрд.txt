@@ -1,0 +1,104 @@
+import random
+import numpy as np
+import cv2
+import os
+import string
+import operator
+
+#обход графа в ширину
+def shir(gr,v):
+    visited = []
+    q = []
+    if v not in q:
+        q.append(v)
+    while True:
+        if v not in visited:
+            visited.append(v)
+        if len(q)==1 and len(visited)==len(gr.keys()):
+            break
+        del q[0]
+        for i in gr[v]:
+            if i not in visited:
+                q.append(i)
+        v=q[0]
+    return visited
+
+#дейкстр с весом
+def deykstr_w(gr,v):
+    u=0
+    res = {}
+    gr_weight = {}
+    for i in gr.keys():
+        gr_weight[i] = 100
+    q = []
+    gr_weight[v]=0
+    while True:
+        if v not in q:
+            q.append(v)
+        for i in gr[v]:
+            if i[0] in gr_weight.keys():
+                if gr_weight[i[0]]>gr_weight[q[0]]+int(i[1:]):
+                    gr_weight[i[0]]=gr_weight[q[0]]+int(i[1:])
+
+        res[q[0]]=gr_weight[q[0]]
+        gr_weight.pop(q[0])
+        del q[0]
+        if len(gr_weight)==0:
+            break
+        qwert = list(sorted(gr_weight.items(), key=operator.itemgetter(1)))
+        v=qwert[0][0]
+    return res
+
+
+def graf_tree(gr):
+    w=[]
+    for i in gr.keys():
+        w.append(i)
+    svaz=shir(gr,w[0])
+    vals=[]
+    for i in gr.values():
+        for j in i:
+            vals.append(j)
+    if len(svaz)==len(w) and len(w)==(len(vals)/2)+1:
+        return True
+    else:
+        return False
+
+
+
+#=========================================================================
+def belford(file,v):
+    with open(file, 'r') as f:
+        arr = f.readlines()
+        grr = {}
+        for i in arr:
+            i = i.split('\n')[0].split(' ')
+            grr[i[0]] = i[1:]
+    print(grr)
+    #поиск вершин с отрицательным путем к соседу и выделение подграфа с отрицательными ребрами к соседу
+    otr=[]
+    for i in grr.keys():
+        for j in grr[i]:
+            if int(j[1:])<0 and i not in otr:
+                otr.append(i)
+    grotr={}
+    for i in otr:
+        q = []
+        for j in grr[i]:
+            if j[:1] in otr:
+                q.append(j[:1])
+        grotr[i]=q
+    print('Подграф: ',grotr)
+
+    #проверка подграфа отрицательных ребер на образование цикла(дерево не дерево?)
+    if len(otr)>1:
+        tree=graf_tree(grotr)
+    else:
+        tree = True
+
+    if not tree:
+        print('Решения не существует!')
+    else:
+        print(deykstr_w(grr,v))
+
+belford('c:/Games/anaconda/work/files/grafotr.txt','a')

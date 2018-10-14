@@ -1,0 +1,9 @@
+n=11
+k=3
+arr=[1,1]
+for i in range(2,n):
+    if i <=k:
+        arr.append(arr[i-1]*2)
+    else:
+        arr.append((arr[i-1]*2)-arr[i-1-k])
+print(arr,arr[n-1])

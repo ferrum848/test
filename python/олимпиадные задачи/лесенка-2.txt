@@ -1,0 +1,29 @@
+#mass=[1,-1,1]
+mass=[random.randrange(-50,50) for y in range(999)]
+n=len(mass)
+put=[]
+sch=0
+i=0
+while True:
+    if mass[i]>=0:
+        sch+=mass[i]
+        put.append(i+1)
+        i+=1
+    else:
+        if mass[i]>mass[i+1]:
+            sch += mass[i]
+            put.append(i + 1)
+            i+=1
+        else:
+            sch += mass[i+1]
+            put.append(i + 2)
+            i+=2
+
+    if i>=n-1:
+        break
+
+print(sch)
+print(put)
+
+print('====================================')
+print(time.clock() - start_time, "seconds")

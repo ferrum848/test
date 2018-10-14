@@ -1,0 +1,101 @@
+import copy
+
+input_string = ['acab', 'accc', 'acac', 'baca', 'abb', 'z', 'ac']
+
+input_str = copy.deepcopy(input_string)
+result_of_incoming = {}
+for i in input_str:
+    result_of_incoming[i] = 0
+
+bor_graf = {'E': []}
+
+bor_graf_keys, to_del = [], []
+
+for stroka in input_string:
+    if len(stroka) == 1:
+        to_del.append(stroka)
+    if not stroka[0] in bor_graf['E']:
+        bor_graf['E'].append(stroka[0])
+        bor_graf[stroka[0]] =[0]
+        bor_graf_keys.append(stroka[0])
+for i in to_del:
+    input_string.remove(i)
+
+while len(input_string) != 0:
+    temp, to_del = [], []
+    for i in bor_graf_keys:
+        for stroka in input_string:
+            if len(stroka) == len(i + stroka[len(i)]):
+                to_del.append(stroka)
+            if not (i + stroka[len(i)]) in bor_graf.keys() and (i + stroka[len(i)]) == stroka[: len(i) + 1]:
+                bor_graf[i + stroka[len(i)]] = [0]
+                bor_graf[i].append(i + stroka[len(i)])
+                temp.append(i + stroka[len(i)])
+    to_del = set(to_del)
+    for i in to_del:
+        input_string.remove(i)
+    bor_graf_keys = temp
+
+for key in bor_graf.keys():
+    if key in input_str:
+        bor_graf[key][0] = 1
+
+print(bor_graf)
+#====================================================
+
+def suff_link(bor_graf, stroka):
+    if len(stroka) == 1:
+        return ''
+    else:
+        temp = suff_link(bor_graf, stroka[:-1]) + stroka[len(stroka) - 1]
+        if not temp in bor_graf.keys():
+            return suff_link(bor_graf, temp)
+        else:
+            return (suff_link(bor_graf, stroka[:-1]) + stroka[len(stroka) - 1])
+
+
+def good_suff(bor_graf, stroka):
+    while True:
+        if len(stroka) == 0:
+            break
+        elif bor_graf[stroka][0] == 1 and len(bor_graf[stroka]) > 1:
+            break
+        else:
+            stroka = suff_link(bor_graf, stroka)
+    return stroka
+
+
+
+
+string_for_search = 'aqacazvabdabbtbacaacccz '
+
+now_str = ''
+ch = -1
+while True:
+    print(now_str)
+    ch += 1
+    if ch == len(string_for_search):
+        break
+    now_str += string_for_search[ch]
+    print(now_str)
+    if now_str in bor_graf.keys() and bor_graf[now_str][0] == 1:
+        result_of_incoming[now_str] += 1
+    elif now_str in bor_graf.keys() and bor_graf[now_str][0] == 0:
+        continue
+    else:
+        if len(now_str) > 1:
+            t = len(now_str)
+            now_str = good_suff(bor_graf, now_str[:-1])
+            if len(now_str) != 0:
+                if bor_graf[now_str][0] == 1:
+                    result_of_incoming[now_str] += 1
+            ch -= t - 1 - len(now_str)
+            now_str = ''
+        else:
+            now_str = ''
+
+print(result_of_incoming)
+
+
+
+

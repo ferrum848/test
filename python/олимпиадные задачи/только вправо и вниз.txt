@@ -1,0 +1,44 @@
+n=6
+m=6
+#mass=[[2,1,1,2],[3,2,1,44],[1,1,1,0]]
+mass=[[2, 0, 5, 0, 0, 0],[1,0,0,0,0,0],[1,0,0,0,0,0],[1,0,0,0,0,0],[1,0,0,0,0,0],[1,1,3,0,0,0]]
+for i in mass:
+    print(i)
+qwert=[[0,0]]
+put=0
+arr=[]
+#===========================================
+while True:
+    if not qwert:
+        break
+    i=qwert[0][0]
+    j=qwert[0][1]
+
+    while True:
+        if j + mass[i][j] >= m or mass[i][j] == mass[n-1][m-1]:
+            break
+        j += mass[i][j]
+        if i==n-1 and j==m-1:
+            put += 1
+        else:
+            if [i,j] not in arr and mass[i][j]!=0 and i!=n-1:
+                qwert.append([i, j])
+                arr.append([i,j])
+    i = qwert[0][0]
+    j = qwert[0][1]
+
+    while True:
+        if i + mass[i][j] >= n or mass[i][j] == mass[n-1][m-1]:
+            break
+        i += mass[i][j]
+        if i==n-1 and j==m-1:
+            put += 1
+        else:
+            if [i, j] not in arr and mass[i][j]!=0 and j!=m-1:
+                qwert.append([i, j])
+                arr.append([i, j])
+    del qwert[0]
+
+    print(qwert,put)
+
+print(put)

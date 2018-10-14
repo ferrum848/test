@@ -1,0 +1,39 @@
+#сортировка слиянием
+def sliyanie(arr):
+    #разбиение
+    sp=[arr[d:d+2] for d in range(0, len(arr), 2)]
+    for i in sp:
+        if len(i)>1 and i[0]>i[1]:
+            i[0],i[1]=i[1],i[0]
+    #слияние
+    sch=2
+    mass=[]
+    while True:
+        if len(sp)%2!=0:
+            sp.append(mass)
+        q=[]
+        for i in range(0,len(sp),2):
+            while True:
+                if len(sp[i])==0:
+                    for j in sp[i+1]:
+                        q.append(j)
+                    break
+                elif len(sp[i+1])==0:
+                    for j in sp[i]:
+                        q.append(j)
+                    break
+                if sp[i][0]<=sp[i+1][0]:
+                    q.append(sp[i][0])
+                    del sp[i][0]
+                else:
+                    q.append(sp[i+1][0])
+                    del sp[i+1][0]
+        sch*=2
+        sp = [q[d:d + sch] for d in range(0, len(q), sch)]
+        if sch>=len(arr):
+            break
+    sp=sum(sp,[])
+    return sp
+ar=[random.randint(10,100) for y in range(15)]
+print(ar)
+print(sliyanie(ar))

@@ -1,0 +1,87 @@
+people_class = {'red' : (255, 0, 0),
+             'yellow':(223, 255, 0),
+             'green':(32, 255, 0),
+             'blue':(32, 0, 255),
+             'orange':(255, 96, 0),
+             'light_blue':(0, 64, 255),
+             'violette':(128, 0, 255),
+             'light_green':(128, 255, 0),
+             'dark_green':(0, 255, 64),
+             'dark_blue':(255, 0, 255),
+             'foxy':(255, 191, 0),
+             'motton_blue':(0, 255, 255),
+             'emerald':(0, 255, 159),
+             'hard_blue':(0, 159, 255),
+             'purpure':(255, 0, 191),
+             'gray':(127, 127, 127),
+             'izumrude':(64, 255, 159)}
+
+
+people_regions = {1: 'red',
+             2: 'orange',
+             3: 'foxy',
+             4: 'yellow',
+             5: 'green',
+             6: 'light_green',
+             7: 'emerald',
+             8: 'dark_green',
+             9: 'light_blue',
+             10:'blue',
+             11:'motton_blue',
+             12:'blue',
+             13:'violette',
+             14:'purpure',
+             15:'izumrude',
+             20:'gray'}
+
+'''
+classes = []
+for title, color in people_class.items():
+    temp = {'title': title, 'shape': 'bitmap', 'color': color2code(color)}
+    classes.append(temp)
+meta = {'classes': classes, 'tags_images': [], "tags_objects": []}
+json_dump(meta, 'c:/Games/anaconda/work/super/5/meta.json')
+'''
+
+
+
+for object in os.listdir('c:/Games/anaconda/work/super/5/img'):
+    name = object[:19]
+    print(name)
+
+    image = cv2.imread('c:/Games/anaconda/work/super/5/img/' + name + '.png')
+
+    im = cv2.imread('c:/Games/anaconda/work/super/5/my_ann/' + name + '_seg.png')
+    im = im[:, :, 0]
+    print(np.unique(im))
+
+    foto_objects = []
+    json_for_image = {'tags': [],
+                      'description': '',
+                      'objects': foto_objects,
+                      'size': {
+                          'width': image.shape[1],
+                          'height': image.shape[0]
+                      }}
+    mask = np.where(im != 0, im, 20)
+
+    for obj in np.unique(mask):
+        classTitle = people_regions[obj]
+        mask_bool = np.where(mask == obj, mask, False)
+        left_coner, mask_bool = coords(mask_bool, obj)
+        mask_bool = mask_bool.astype(np.bool)
+        data = mask_2_base64(mask_bool)
+        temp = {"bitmap":
+                    {"origin": [left_coner[1], left_coner[0]],
+                     "data": data},
+                     "type": "bitmap",
+                     "classTitle": classTitle,
+                     "description": "",
+                     "tags": [],
+                     "points": {"interior": [], "exterior": []}}
+        foto_objects.append(temp)
+    json_dump(json_for_image, 'c:/Games/anaconda/work/super/5/ann/' + name + '.json')
+
+
+
+

@@ -1,0 +1,98 @@
+import os
+import shelve
+import webbrowser, sys, requests, bs4, openpyxl, pprint, PyPDF2, docx, datetime, subprocess
+import numpy as np
+import cv2, random
+
+
+
+if len(sys.argv) == 3:
+    floor = int(sys.argv[1])
+    right_part = int(sys.argv[2])
+else:
+    floor = 5000
+    right_part = 5000
+
+fon = np.ones((floor, right_part, 3), dtype=np.uint8) * 128
+mask = np.ones((floor, right_part, 3), dtype=np.uint8)
+
+# sorting images by height
+list_of_foto, list_of_used_foto = [], []
+for i in os.listdir('c:/Games/anaconda/work/collage'):
+    im = cv2.imread('c:/Games/anaconda/work/collage/' + i)
+    list_of_foto.append([i, im.shape[0], im.shape[1]])
+list_of_foto = sorted(list_of_foto, key=lambda x: x[1], reverse=True)
+len_list_of_foto = len(list_of_foto)
+len_list_of_used_foto = 0
+
+while True:
+    right_wall = right_part
+    for i in range(len(list_of_foto)):
+        if floor - list_of_foto[i][1] > 0:
+            ceil = floor - list_of_foto[i][1]
+            break
+    x, y = floor, 0
+
+
+    for i in list_of_foto:
+        im = cv2.imread('c:/Games/anaconda/work/collage/' + i[0])
+        q = im[: , :]
+        if q.shape[1] + y > right_wall:
+            pass
+        elif x - q.shape[0] > 0:
+            x -= q.shape[0]
+            fon[x : q.shape[0] + x, y : q.shape[1] + y] = q
+            mask[x: q.shape[0] + x, y: q.shape[1] + y] *= 255
+            len_list_of_used_foto += 1
+            y += q.shape[1]
+            x = floor
+            list_of_used_foto.append(i)
+
+    for i in list_of_used_foto:
+        if i in list_of_foto:
+            list_of_foto.remove(i)
+    list_of_used_foto = []
+
+
+    for i in list_of_foto:
+        im = cv2.imread('c:/Games/anaconda/work/collage/' + i[0])
+        q = im[: , :]
+        #if all(fon[q.shape[0] + ceil, right_wall - q.shape[1]] == fon[1,1]):
+        if all(mask[q.shape[0] + ceil - 1, right_wall - q.shape[1]] == [1, 1, 1]):
+            #cv2.imshow('img', fon)
+            #cv2.waitKey(0)
+            fon[ceil: q.shape[0] + ceil, right_wall - q.shape[1] : right_wall] = q
+            mask[ceil: q.shape[0] + ceil, right_wall - q.shape[1]: right_wall] *= 255
+            len_list_of_used_foto += 1
+            list_of_used_foto.append(i)
+            right_wall -=  q.shape[1]
+
+    for i in list_of_used_foto:
+        if i in list_of_foto:
+            list_of_foto.remove(i)
+    list_of_used_foto = []
+    floor = ceil
+
+    if len(list_of_foto) == 0 or ceil < min(list_of_foto, key=lambda x: x[1])[1]:
+        print(len(list_of_foto), ceil, floor)
+        break
+
+cv2.imshow('img', mask)
+cv2.waitKey(0)
+cv2.imshow('img', fon)
+cv2.waitKey(0)
+cv2.imwrite('c:/Games/anaconda/work/collage/rezult_new.jpg', fon)
+
+'''
+
+
+for i in range(30):
+    x = random.randint(10, 80)
+    y = random.randint(10, 150)
+    fon = np.ones((x, y, 3), dtype=np.uint8)
+    a, b, c = random.randint(1, 255), random.randint(1, 255), random.randint(1, 255)
+    cv2.rectangle(fon, (0, 0), (y, x), (a, b, c), -1)
+    #cv2.imshow('img', fon)
+    cv2.imwrite('exampleq%s.jpg'%i, fon)
+    #cv2.waitKey(0)
+'''

@@ -1,0 +1,20 @@
+img = cv2.imread('009702.jpg')
+l_img = cv2.imread('0474.jpg')
+#img = np.ones(img.shape, dtype = np.uint8) * 255
+cv2.rectangle(img, (10, 10), (300, 300), (255, 0, 0), 2)
+b_channel, g_channel, r_channel = cv2.split(img)
+mask = np.zeros(img.shape, dtype = np.uint8)
+cv2.rectangle(mask, (10, 10), (300, 300), (50, 50, 50), 2)
+mask_sp = cv2.split(mask)
+#alpha_channel = np.ones(b_channel.shape, dtype=b_channel.dtype) * 100
+
+img = cv2.merge((b_channel, g_channel, r_channel, mask_sp[0]))
+alpha_s = img[: , : , 3] / 255
+alpha_l = 1 - alpha_s
+#print(alpha_l)
+
+for c in range(0, 3):
+    l_img[1000:1000 + img.shape[0], 500:500 + img.shape[1], c] = alpha_s * img[:, :, c]  \
+                                                           + alpha_l * l_img[1000:1000 + img.shape[0], 500:500 + img.shape[1], c]
+cv2.imshow('1', l_img)
+cv2.waitKey(0)

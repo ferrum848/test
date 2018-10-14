@@ -1,0 +1,10 @@
+n=10
+ar=[random.randint(10,99) for y in range(n)]
+print(ar)
+
+st = [['null' for y in range(n)] for x in range(round(math.log2(n))+1)]
+
+for k in range(0,round(math.log2(n))+1):
+    for i in range(0,(len(ar)-2**k)+1):
+        st[k][i]=min(ar[i:i+2**k])
+print(st)

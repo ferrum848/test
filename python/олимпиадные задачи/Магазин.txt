@@ -1,0 +1,24 @@
+start_time = time.clock()
+n=38
+k=120
+
+arr = [[0 for y in range(k)] for x in range(n)]
+for i in range(n):
+    arr[i][i]=1
+
+for t in range(2,78,2):
+    for i in range(n-1):
+        for j in range(i+t,i+t+1):
+            if i>0:
+                arr[i][j]=arr[i-1][j-1]+arr[i+1][j-1]
+            else:
+                arr[i][j]=arr[i+1][j-1]
+
+
+for i in arr:
+    print(i)
+
+print(arr[2][36])
+
+print('====================================')
+print(time.clock() - start_time, "seconds")

@@ -1,0 +1,7 @@
+m=3
+n=9
+res=0
+arr=[1 for y in range(n+1)]
+for i in range(m,n+1):
+    arr[i]=arr[i-1]+arr[i-m]
+print(arr[len(arr)-1])

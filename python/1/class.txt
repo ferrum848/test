@@ -1,0 +1,32 @@
+#3
+class Valid:
+    def __init__(self, parenthes):
+        self.parenthes=parenthes
+    def finder(self):
+        strr=self.parenthes
+        f=0
+        if len(strr)%2!=0: return f!=0
+        for i in range(0,(len(strr)-1),2):
+            if (strr[i]=='(' and strr[i+1] == ')') or (strr[i]=='{' and strr[i+1] == '}') or (strr[i]=='[' and strr[i+1] == ']'):
+                pass
+            else: f-=1
+        return f==0
+
+s='(,),{,},[,]'
+val=Valid(s.split(','))
+print(val.finder())
+
+
+
+#9
+class Stroka_up():
+    def get_String(self):
+        self.str1=input("vvod stroky:")
+    def print_String(self):
+        print(self.str1.upper())
+
+a=Stroka_up()
+a.get_String()
+a.print_String()
+
+

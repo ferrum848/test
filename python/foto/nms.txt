@@ -1,0 +1,154 @@
+import re
+import string
+import os
+import shelve
+import webbrowser, sys, requests, bs4, openpyxl, pprint, PyPDF2, docx, datetime, subprocess
+from matplotlib import pyplot as plt
+
+'''
+img = cv2.imread('17.jpg', 0)
+
+img2 = img.copy()
+template = cv2.imread('me.jpg',0)
+w, h = template.shape[::-1]
+
+res = cv2.matchTemplate(img2,template,cv2.TM_CCOEFF_NORMED)
+print(res)
+threshold = 0.5155
+loc = np.where(res >= threshold)
+print(loc)
+for pt in zip(*loc[::-1]):
+    print(pt)
+    cv2.rectangle(img, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
+    #break
+#me = img[460 : 1500, 1930 : 2750]
+#img[60 : 1100, 930 : 1750] = me
+
+cv2.imshow('1', img)
+cv2.waitKey(0)
+'''
+#========================================================================================
+import numpy as np
+import cv2, random
+
+def non_max_suppression_slow(boxes, overlapThresh):
+    if len(boxes) == 0:
+        return []
+    # initialize the list of picked indexes
+    pick = []
+    # grab the coordinates of the bounding boxes
+    x1 = boxes[:, 0]
+    y1 = boxes[:, 1]
+    x2 = boxes[:, 2]
+    y2 = boxes[:, 3]
+    # compute the area of the bounding boxes and sort the bounding
+    # boxes by the bottom-right y-coordinate of the bounding box
+    area = (x2 - x1 + 1) * (y2 - y1 + 1)
+    idxs = np.argsort(y2)
+
+    while len(idxs) > 0:
+        # grab the last index in the indexes list, add the index
+        # value to the list of picked indexes, then initialize
+        # the suppression list (i.e. indexes that will be deleted)
+        # using the last index
+        last = len(idxs) - 1
+        i = idxs[last]
+        pick.append(i) # индекс с самым большим y2
+        suppress = [last]
+
+        for pos in range(0, last):
+            # grab the current index
+            j = idxs[pos]
+
+            # find the largest (x, y) coordinates for the start of
+            # the bounding box and the smallest (x, y) coordinates
+            # for the end of the bounding box
+            xx1 = max(x1[i], x1[j])
+            yy1 = max(y1[i], y1[j])
+            xx2 = min(x2[i], x2[j])
+            yy2 = min(y2[i], y2[j])
+
+            # compute the width and height of the bounding box
+            w = max(0, xx2 - xx1 + 1)
+            h = max(0, yy2 - yy1 + 1)
+
+            # compute the ratio of overlap between the computed
+            # bounding box and the bounding box in the area list
+            overlap = float(w * h) / area[j]
+
+            # if there is sufficient overlap, suppress the
+            # current bounding box
+            if overlap > overlapThresh:
+                suppress.append(pos)
+            # delete all indexes from the index list that are in the
+            # suppression list
+        idxs = np.delete(idxs, suppress)
+
+        # return only the bounding boxes that were picked
+    return boxes[pick]
+
+
+
+fon = np.ones((400, 500, 3), dtype=np.uint8) * 255
+fon_res = np.ones((400, 500, 3), dtype=np.uint8) * 255
+
+x_l_st = 10
+x_r_st = 450
+y_v_st = 10
+y_n_st = 50
+
+h_max = 50
+l_min = 30
+cv2.rectangle(fon,(x_l_st, y_v_st), (x_r_st, y_n_st), (0, 0, 255), 1)
+while True:
+    x = random.randint(1, fon.shape[1] - l_min)
+    x1 = random.randint(x + 1, fon.shape[1] - 1)
+    if x1 > x_r_st and x < x_l_st:
+        break
+while True:
+    y = random.randint(y_v_st + 1, y_n_st - 1)
+    y1 = random.randint(y_n_st + 10, y + 10 + h_max)
+    if y1 > y:
+        break
+
+cv2.rectangle(fon,(x, y), (x1, y1), (0, 0, 255), 1)
+cv2.imshow('1', fon)
+cv2.waitKey(0)
+v_min_v = y_n_st
+v_min_n = y1
+x_min = x
+x_max = x1
+mass, sch = [], 0
+while True:
+    if v_min_n > fon.shape[0] - h_max or sch == 10:
+        break
+    y_v = random.randint(v_min_v + 1, v_min_n)
+    y_n = random.randint(v_min_n + 10, v_min_n + h_max)
+    while True:
+        x_l = random.randint(1, fon.shape[1] - l_min)
+        x_r = random.randint(x_l + 1, fon.shape[1] - 1)
+        if x_r > x_min and x_l < x_max:
+            break
+    cv2.rectangle(fon,(x_l, y_v), (x_r, y_n), (0, 0, 255), 1)
+    mass.append([x_l, y_v, x_r, y_n])
+    v_min_v = v_min_n
+    v_min_n = y_n
+    x_min = x_l
+    x_max = x_r
+    sch += 1
+    cv2.imshow('1', fon)
+    cv2.waitKey(0)
+
+mass = np.array(mass)
+
+pick = non_max_suppression_slow(mass, 0.3)
+for (startX, startY, endX, endY) in pick:
+		cv2.rectangle(fon_res, (startX, startY), (endX, endY), (0, 255, 0), 2)
+
+
+cv2.imshow('1', fon)
+cv2.waitKey(0)
+cv2.imshow('2', fon_res)
+cv2.waitKey(0)
+#cv2.imwrite('result_red.jpg', fon)
+#cv2.imwrite('result_NMS.jpg', fon_res)

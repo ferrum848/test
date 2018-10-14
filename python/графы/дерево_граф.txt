@@ -1,0 +1,22 @@
+#дерево ли граф?
+def graf_tree(file):
+    with open(file, 'r') as f:
+        arr = f.readlines()
+        gr = {}
+        for i in arr:
+            i = i.split('\n')[0].split(' ')
+            gr[i[0]] = i[1:]
+    w=[]
+    for i in gr.keys():
+        w.append(i)
+    svaz=shir(file,w[0])
+    vals=[]
+    for i in gr.values():
+        for j in i:
+            vals.append(j)
+    if len(svaz)==len(w) and len(w)==(len(vals)/2)+1:
+        print('This is TREE!')
+    else:
+        print('Not Tree!')
+
+graf_tree('c:/Games/anaconda/work/files/tree.txt')
